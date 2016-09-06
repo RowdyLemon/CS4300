@@ -7,10 +7,13 @@ function [] = CS4300_Wumpus_A_Star_Runner()
         1,4;2,4;3,4;4,4];
     
     board = zeros(4,4);
-    
     for i = 1:trials
        gold_loc = [randi(4), randi(4)];
        wump_loc = [randi(4), randi(4)];
+       while wump_loc == [1,1]
+           wump_loc = [randi(4), randi(4)];
+       end
+       
        if gold_loc == wump_loc
            board(gold_loc(1), gold_loc(2)) = 4;
        else
@@ -29,9 +32,11 @@ function [] = CS4300_Wumpus_A_Star_Runner()
               end
            end
        end
-       CS4300_Wumpus_A_star1(board, [1,1,1], [gold_loc(1), gold_loc(2), 1], 'CS4300_A_Star_Man', 1);
+       [so, no] = CS4300_Wumpus_A_star1(board, [1,1,0], [gold_loc(1), gold_loc(2), 1], 'CS4300_A_Star_Man', 1);
         
        disp(board);
+       disp(so);
+       disp(no);
 
     end 
 end
