@@ -1,0 +1,47 @@
+classdef PriorityQueue
+    
+    properties
+        nodes;
+    end
+    
+    methods
+        function bitch = PriorityQueue()
+            bitch.nodes = java.util.ArrayList();
+        end
+        
+        function add(PQ, node, insertion_type)
+            disp('bitch');
+            disp(PQ);
+            new_nodes = [];
+            inserted = 0;
+            if length(PQ.nodes) == 0
+               PQ.nodes(1) = node;
+            end
+            for i=1:length(PQ.nodes)
+                if insertion_type == 1
+                    if node.cost <= PQ.nodes(i).cost && inserted == 0
+                        inserted = 1;
+                        new_nodes(i) = node;
+                    end
+                    new_nodes(i+inserted) = PQ.nodes(i);
+                end
+                if insertion_type == 2
+                    if node.cost > PQ.nodes(i).cost && inserted == 0
+                        inserted = 1;
+                        new_nodes(i) = node;
+                    end
+                    new_nodes(i+inserted) = PQ.nodes(i);
+                end
+            end
+            PQ.nodes = new_nodes;
+            disp(PQ.nodes);
+        end
+        
+        function node = remove(PQ)
+            node = PQ.nodes(1);
+            PQ.nodes = PQ.nodes(2:end);
+        end
+    end
+    
+end
+

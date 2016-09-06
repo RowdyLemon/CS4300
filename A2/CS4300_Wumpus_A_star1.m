@@ -64,36 +64,55 @@ function [solution,nodes] = CS4300_Wumpus_A_star1(board,initial_state,goal_state
     ROTATE_LEFT = 3;
 
     
-    priority_queue = java.util.PriorityQueue;
-    
+    priority_queue = PriorityQueue();
     visited = java.util.HashSet;
     
-    tree;
-    
     disp(board);
-    disp(initial_state);
-    disp(goal_state);
     
-    priority_queue.add(initial_state);
+    % Build root node (parent, level, state, action, g, h, cost)
+    g = 0;
+    h = CS4300_A_Star_Man(initial_state, goal_state);
+    root = Node(0, 0, initial_state, 0, g, h, g+h);
     
-    while ~priority_queue.isEmpty()
+    priority_queue.add(root,1);
+    
+    while length(priority_queue.nodes) > 0
+        disp('end');
+        % get current state and mark it as visited
+        current_node = priority_queue.remove();
+        visited.add(mat2str(current_node.state));
         
-        %get the fucking neighbors of current state
-        current_state = priority_queue.poll()
-
-        visited.add([current_state(1), current_state(2)]);
-        neighbors = Get_Neighbors(current_state);
-        for i = 1:Length(neighbors)
-           if board(neighbors(i, 1), neighbors(i, 2)) == BOTH
-               % return a bunch of failed shit
-           end
-           if board(neighbors(i, 1), neighbors(i, 2)) == WUMPUS | board(neighbors(i, 1), neighbors(i, 2)) == PIT
-               continue;
-           end
-           if ~visited.contains([neighbors(i,1),neighbors(i,2)])
-                priority_queue.add(neighbors(i));
-           end
+        % check if wumpus and gold
+        if board(current_node.state(1), current_node.state(2)) == BOTH
+            disp('both together, cant solve');
+            break; % no solution 
         end
-        parent_node = Node();
+        
+        % check if arrived at goal
+        disp(current_node.state);
+        disp(goal_state);
+        if current_node.state == goal_state
+            disp('we got the gold');
+           break; % we win 
+        end
+        
+        % check if on a hole or wumpus
+        if board(current_node.state(1), current_node.state(2)) == PIT | board(current_node.state(1), current_node.state(2)) == WUMPUS
+            disp('we hit a hole or a wumpus');
+            continue; 
+        end
+        
+        % get child states, build nodes, and add them to queue
+        children = Get_Children_States(current_node);
+        for i=1:children.size
+            g = current_node.g+1;
+            child_state = children.get(i-1);
+            h = CS4300_A_Star_Man(child_state, goal_state);
+            child = Node(current_node, current_node.level+1, reshape(child_state(1:3),[1,3]), child_state(4), g, h, g+h);
+            if ~visited.contains(mat2str(child.state))
+                priority_queue.add(child,1);
+            end
+        end
+        
     end
 end

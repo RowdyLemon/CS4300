@@ -29,9 +29,10 @@ function [] = CS4300_Wumpus_A_Star_Runner()
               end
            end
        end
-       CS4300_Wumpus_A_Star1(board, [1,1,1], [gold_loc(1), gold_loc(2), 1], 'CS4300_A_Star_Man', 1);
-       
-    end
-    
+       CS4300_Wumpus_A_star1(board, [1,1,1], [gold_loc(1), gold_loc(2), 1], 'CS4300_A_Star_Man', 1);
+        
+       disp(board);
+
+    end 
 end
 
