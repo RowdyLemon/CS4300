@@ -49,9 +49,11 @@ classdef CS4300_PriorityQueue < handle
                     new_nodes(i+inserted) = PQ.nodes(i);
                 end
                 if insertion_type == 2
-                    if node.cost > PQ.nodes(i).cost && inserted == 0
-                        inserted = 1;
+                    if PQ.nodes(i).cost <= node.cost
+                        new_nodes(i) = PQ.nodes(i);
+                    elseif inserted == 0
                         new_nodes(i) = node;
+                        inserted = 1;
                     end
                     new_nodes(i+inserted) = PQ.nodes(i);
                 end

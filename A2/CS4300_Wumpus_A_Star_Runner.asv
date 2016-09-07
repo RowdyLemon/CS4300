@@ -8,8 +8,8 @@ function [] = CS4300_Wumpus_A_Star_Runner()
     trials = 2000;  
     board = zeros(4,4);
     
-    number_nodes_1 = zeros(1, trials);
-    number_nodes_2 = zeros(1, trials);
+    number_nodes_1 = [];
+    number_nodes_2 = [];
     
     for i = 1:trials
        gold_loc = [randi(4), randi(4)];
@@ -39,11 +39,11 @@ function [] = CS4300_Wumpus_A_Star_Runner()
        
        [so1, no1] = CS4300_Wumpus_A_star1(board, [1,1,0], [gold_loc(1), gold_loc(2), 1], 'CS4300_A_Star_Man', 1);
        
-       number_nodes_1(i) = length(no1);
+       number_nodes_1 = [number_nodes_1, length(no1)];
        
        [so2, no2] = CS4300_Wumpus_A_star1(board, [1,1,0], [gold_loc(1), gold_loc(2), 1], 'CS4300_A_Star_Man', 2);
         
-       number_nodes_2(i) = length(no2);
+       number_nodes_2 = [number_nodes_2, length(no2)];
        
 %        disp(board);
 %        disp(so);
@@ -59,23 +59,13 @@ function [] = CS4300_Wumpus_A_Star_Runner()
 
     end
     
-    mean1 = mean(number_nodes_1(1,:));
-    var1 = var(number_nodes_1(1,:));
-    mean2 = mean(number_nodes_2(1,:));
-    var2 = var(number_nodes_2(1,:));
+    mean1 = mean(number_nodes_1);
+    var1 = var(number_nodes_1);
+    mean2 = mean(number_nodes_2);
+    var2 = var(number_nodes_2);
     CI1 = mean1 - 1.645*sqrt(var1/trials);
     CI1 = [CI1, mean1 + 1.645*sqrt(var1/trials)];
     CI2 = mean2 - 1.645*sqrt(var2/trials);
     CI2 = [CI2, mean2 - 1.645*sqrt(var2/trials)];
-    
-    disp('insertion type 1');
-    disp(['mean: ', num2str(mean1)]);
-    disp(['var: ', num2str(var1)]);
-    disp(['CI: ', num2str(CI1)]);
-    
-    disp('insertion type 2');
-    disp(['mean: ', num2str(mean2)]);
-    disp(['var: ', num2str(var2)]);
-    disp(['CI: ', num2str(CI2)]);
 end
 
