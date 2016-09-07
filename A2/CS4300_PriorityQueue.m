@@ -76,6 +76,25 @@ classdef CS4300_PriorityQueue < handle
             node = PQ.nodes(1);
             PQ.nodes = PQ.nodes(2:end);
         end
+        
+        function bool = contains(PQ, node)
+            % contains - checks if node exists in queue
+            % On input:
+            %   PQ (CS4300_PriorityQueue): Priority queue to check for node
+            %   node (CS4300_Node): Node to check for
+            % On output:
+            %   bool (boolean): true if contained, false if not
+            % Call:
+            % contains_node = CS4300_PriorityQueue.contains(node)
+            %
+            for i=1:length(PQ.nodes)
+               if PQ.nodes(i).state == node.state
+                  bool = true;
+                  return;
+               end
+            end
+            bool = false;
+        end
     end
 end
 

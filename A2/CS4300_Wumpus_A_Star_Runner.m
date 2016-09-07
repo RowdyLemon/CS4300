@@ -6,42 +6,18 @@ function [] = CS4300_Wumpus_A_Star_Runner()
     BOTH = 4;
     
     trials = 2000;  
-    board = zeros(4,4);
     
     number_nodes_1 = zeros(1, trials);
     number_nodes_2 = zeros(1, trials);
     
     for i = 1:trials
-       gold_loc = [randi(4), randi(4)];
-       wump_loc = [randi(4), randi(4)];
-       while wump_loc == [1,1]
-           wump_loc = [randi(4), randi(4)];
-       end
+       [board, goal] = CS4300_gen_board(0.2);
        
-       if gold_loc == wump_loc
-           board(gold_loc(1), gold_loc(2)) = BOTH;
-       else
-           board(gold_loc(1), gold_loc(2)) = GOLD;
-           board(wump_loc(1), wump_loc(2)) = WUMPUS;
-       end
-       for x = 1:4
-           for y = 1:4
-              if ([x,y] == gold_loc) | ([x,y] == wump_loc) | ([x,y] == [1,1])
-                 continue;
-              else
-                  pit_chance = randi(5);
-                  if pit_chance == 1
-                     board(x,y) = PIT; 
-                  end
-              end
-           end
-       end
-       
-       [so1, no1] = CS4300_Wumpus_A_star1(board, [1,1,0], [gold_loc(1), gold_loc(2), 1], 'CS4300_A_Star_Man', 1);
+       [so1, no1] = CS4300_Wumpus_A_star1(board, [1,1,0], goal, 'CS4300_A_Star_Man', 1);
        
        number_nodes_1(i) = length(no1);
        
-       [so2, no2] = CS4300_Wumpus_A_star1(board, [1,1,0], [gold_loc(1), gold_loc(2), 1], 'CS4300_A_Star_Man', 2);
+       [so2, no2] = CS4300_Wumpus_A_star1(board, [1,1,0], goal, 'CS4300_A_Star_Man', 2);
         
        number_nodes_2(i) = length(no2);
        
@@ -59,6 +35,13 @@ function [] = CS4300_Wumpus_A_Star_Runner()
 
     end
     
+    plot(sort(number_nodes_1));
+%     plot(number_nodes_2);
+%     hist(number_nodes_1);
+%     hist(number_nodes_2);
+    
+    
+    
     mean1 = mean(number_nodes_1(1,:));
     var1 = var(number_nodes_1(1,:));
     mean2 = mean(number_nodes_2(1,:));
@@ -66,7 +49,7 @@ function [] = CS4300_Wumpus_A_Star_Runner()
     CI1 = mean1 - 1.645*sqrt(var1/trials);
     CI1 = [CI1, mean1 + 1.645*sqrt(var1/trials)];
     CI2 = mean2 - 1.645*sqrt(var2/trials);
-    CI2 = [CI2, mean2 - 1.645*sqrt(var2/trials)];
+    CI2 = [CI2, mean2 + 1.645*sqrt(var2/trials)];
     
     disp('insertion type 1');
     disp(['mean: ', num2str(mean1)]);

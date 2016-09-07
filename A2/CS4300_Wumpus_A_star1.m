@@ -57,6 +57,7 @@ function [solution,nodes] = CS4300_Wumpus_A_star1(board,initial_state,goal_state
     priority_queue = CS4300_PriorityQueue();
     visited = java.util.HashSet;
        
+    board = CS4300_Fix_Board(board);
     solution = [];
     nodes = CS4300_Node.empty;
     index = 1;
@@ -104,6 +105,7 @@ function [solution,nodes] = CS4300_Wumpus_A_star1(board,initial_state,goal_state
             child = CS4300_Node(current_node, current_node.level+1,...
                 child_state(1:3), child_state(4), g, h, g+h);
             if ~visited.contains(mat2str(child.state)) ...
+                    && ~priority_queue.contains(child) ...
                     && board(child.state(1), child.state(2)) ~= PIT ...
                     && board(child.state(1), child.state(2)) ~= WUMPUS
                 priority_queue.add(child,option);
