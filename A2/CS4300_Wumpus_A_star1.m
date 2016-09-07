@@ -50,40 +50,30 @@ function [solution,nodes] = CS4300_Wumpus_A_star1(board,initial_state,goal_state
 % Fall 2016
 %
     
-    EMPTY = 0;
     PIT = 1;
-    GOLD = 2;
     WUMPUS = 3;
     BOTH = 4;
-    
-    RIGHT = 0;
-    UP = 1;
-    LEFT = 2;
-    DOWN = 3;
-    
-    FORWARD = 1;
-    ROTATE_RIGHT = 2;
-    ROTATE_LEFT = 3;
-
     
     priority_queue = CS4300_PriorityQueue();
     visited = java.util.HashSet;
        
     solution = [];
-    index = 1;
     nodes = CS4300_Node.empty;
+    index = 1;
     
     % Build root node (parent, level, state, action, g, h, cost)
     g = 0;
-    h = CS4300_A_Star_Man(initial_state, goal_state);
+    h = feval(h_name, initial_state, goal_state);
     root = CS4300_Node(0, 0, initial_state, 0, g, h, g+h);
     
     priority_queue.add(root,option);
     
-    while length(priority_queue.nodes) > 0
+    while ~isempty(priority_queue.nodes)
         % get current state and mark it as visited
         current_node = priority_queue.remove();
         visited.add(mat2str(current_node.state));
+        
+        % add current node to the nodes out parameter
         nodes(index) = current_node;
         index = index + 1;
         
@@ -94,6 +84,7 @@ function [solution,nodes] = CS4300_Wumpus_A_star1(board,initial_state,goal_state
         
         % check if arrived at goal
         if current_node.state(1:2) == goal_state(1:2)
+            % build solution out parameter
             while true
                 solution = [current_node.state, current_node.action; solution];
                 if current_node.parent == 0
@@ -105,17 +96,19 @@ function [solution,nodes] = CS4300_Wumpus_A_star1(board,initial_state,goal_state
         end
         
         % check if on a hole or wumpus
-        if board(current_node.state(1), current_node.state(2)) == PIT | board(current_node.state(1), current_node.state(2)) == WUMPUS
+        if board(current_node.state(1), current_node.state(2)) == PIT ...
+            || board(current_node.state(1), current_node.state(2)) == WUMPUS
             continue; 
         end
         
         % get child states, build nodes, and add them to queue
-        children = CS4300_Get_Children_States(current_node);
-        for i=1:children.size
+        children = CS4300_Get_Children_States(current_node.state);
+        for i=1:size(children, 1)
             g = current_node.g+1;
-            child_state = children.get(i-1);
-            h = CS4300_A_Star_Man(child_state, goal_state);
-            child = CS4300_Node(current_node, current_node.level+1, reshape(child_state(1:3),[1,3]), child_state(4), g, h, g+h);
+            child_state = children(i,:);
+            h = feval(h_name, child_state, goal_state);
+            child = CS4300_Node(current_node, current_node.level+1,...
+                child_state(1:3), child_state(4), g, h, g+h);
             if ~visited.contains(mat2str(child.state))
                 priority_queue.add(child,option);
             end

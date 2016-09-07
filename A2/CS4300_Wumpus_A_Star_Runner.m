@@ -1,12 +1,13 @@
 function [] = CS4300_Wumpus_A_Star_Runner()
-    trials = 1;
+
+    PIT = 1;
+    GOLD = 2;
+    WUMPUS = 3;
+    BOTH = 4;
     
-    locs = [1,1;2,1;3,1;4,1;...
-        1,2;2,2;3,2;4,2;...
-        1,3;2,3;3,3;4,3;...
-        1,4;2,4;3,4;4,4];
-    
+    trials = 1;  
     board = zeros(4,4);
+    
     for i = 1:trials
        gold_loc = [randi(4), randi(4)];
        wump_loc = [randi(4), randi(4)];
@@ -15,10 +16,10 @@ function [] = CS4300_Wumpus_A_Star_Runner()
        end
        
        if gold_loc == wump_loc
-           board(gold_loc(1), gold_loc(2)) = 4;
+           board(gold_loc(1), gold_loc(2)) = BOTH;
        else
-           board(gold_loc(1), gold_loc(2)) = 2;
-           board(wump_loc(1), wump_loc(2)) = 3;
+           board(gold_loc(1), gold_loc(2)) = GOLD;
+           board(wump_loc(1), wump_loc(2)) = WUMPUS;
        end
        for x = 1:4
            for y = 1:4
@@ -27,7 +28,7 @@ function [] = CS4300_Wumpus_A_Star_Runner()
               else
                   pit_chance = randi(5);
                   if pit_chance == 1
-                     board(x,y) = 1; 
+                     board(x,y) = PIT; 
                   end
               end
            end
