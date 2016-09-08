@@ -1,10 +1,15 @@
 function [] = CS4300_Wumpus_A_Star_Runner()
-
-    PIT = 1;
-    GOLD = 2;
-    WUMPUS = 3;
-    BOTH = 4;
-    
+% CS4300_Wumpus_A_Star_Runner - test function to run CS4300_Wumpus_A_Star1
+%   generates a random board then runs the A* function 2000 times and
+%   creates data about trials.
+% Call:
+%   CS4300_Wumpus_A_Star_Runner()
+% Author:
+%   Matthew Lemon
+%   UU575787
+%   Derek Heldt-Werle
+%   UU828479
+%
     trials = 2000;  
     
     number_nodes_1 = zeros(1, trials);
@@ -20,28 +25,8 @@ function [] = CS4300_Wumpus_A_Star_Runner()
        [so2, no2] = CS4300_Wumpus_A_star1(board, [1,1,0], goal, 'CS4300_A_Star_Man', 2);
         
        number_nodes_2(i) = length(no2);
-       
-%        disp(board);
-%        disp(so);
-%        disp(no);
-       
-%        for i=1:length(no)
-%            space = '';
-%            for j=1:no(i).level
-%               space = [space, ' '];
-%            end
-%            fprintf('%s\n', [space, mat2str(no(i).state)]);
-%        end
-
     end
-    
-    plot(sort(number_nodes_1));
-%     plot(number_nodes_2);
-%     hist(number_nodes_1);
-%     hist(number_nodes_2);
-    
-    
-    
+
     mean1 = mean(number_nodes_1(1,:));
     var1 = var(number_nodes_1(1,:));
     mean2 = mean(number_nodes_2(1,:));

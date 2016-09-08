@@ -15,7 +15,7 @@ function [board, goal] = CS4300_gen_board(p)
 %     T. Henderson
 %     UU
 %     Summer 2015
-%
+%   
 
 PIT = 1;
 GOLD = 2;
