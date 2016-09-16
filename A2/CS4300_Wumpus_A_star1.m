@@ -66,6 +66,9 @@ function [solution,nodes] = CS4300_Wumpus_A_star1(board,initial_state,goal_state
     g = 0;
     h = feval(h_name, initial_state, goal_state);
     root = CS4300_Node(0, 0, initial_state, 0, g, h, g+h);
+
+    % nodes(index) = root;
+    % index = index + 1;
     
     priority_queue.add(root,option);
     
@@ -109,6 +112,8 @@ function [solution,nodes] = CS4300_Wumpus_A_star1(board,initial_state,goal_state
                     && board(child.state(1), child.state(2)) ~= PIT ...
                     && board(child.state(1), child.state(2)) ~= WUMPUS
                 priority_queue.add(child,option);
+                % nodes(index) = child;
+                % index = index + 1;
             end
         end
     end

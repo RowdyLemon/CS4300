@@ -27,7 +27,7 @@ function [revised, revised_row] = CS4300_Revise(i, Di, j, Dj, P)
 %
 
 revised = false;
-revised_row = zeros(1, length(i));
+revised_row = i;
 
 for x = 1:length(i)
   if(i(x) == 0)
@@ -42,8 +42,8 @@ for x = 1:length(i)
       satisfied = CS4300_P_no_attack(x, Di, y, Dj);
     end
   end
-  if(satisfied)
-    revised_row(x) = 1;
+  if(~satisfied)
+    revised_row(x) = 0;
     revised = true;
   end
 end
