@@ -1,4 +1,4 @@
-function CS4300_A3_Runner()
+function data = CS4300_A3_Runner()
 % CS4300_A3_Runner - Builds statistical data on AC1 and AC3
 % Call:
 %   CS4300_A3_Runner();
@@ -32,6 +32,5 @@ for N = 4:10
     end
   end
 end
-
 end
 
