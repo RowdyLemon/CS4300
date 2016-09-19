@@ -19,7 +19,8 @@ for N = 4:10
     for t = 1:200
       D = rand(N, N) < p;
       tic;
-      D1 = CS4300_AC1(G, D, 'CS4300_Revise');
+%       D1 = CS4300_AC1(G, D, 'CS4300_Revise');
+      D1 = CS4300_AC1_Bad(G, D, 'CS4300_Revise');
       t1 = toc;
       tic;
       D2 = CS4300_AC3(G, D, 'CS4300_Revise');

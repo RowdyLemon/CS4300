@@ -1,4 +1,4 @@
-function D_revised = CS4300_AC3(G,D,P)
+function D_revised = CS4300_AC1_Bad(G,D,P)
 % CS4300_AC3 - AC3 function
 % On input:
 %   G (nxn array): neighborhood graph for n nodes
@@ -23,8 +23,8 @@ function D_revised = CS4300_AC3(G,D,P)
 %   Fall 2016
 %
 
+changed = true;
 arc_queue = [];
-
 for i = 1:length(D)
   for j = 1:length(D)
     if(i == j)
@@ -34,22 +34,19 @@ for i = 1:length(D)
   end
 end
 
-while ~isempty(arc_queue)
-  arc = arc_queue(1,:);
-  arc_queue(1,:) = [];
-  i = arc(1);
-  j = arc(2);
-
-  [revised, row] = CS4300_Revise(D(i,:), i, D(j,:), j, P);
-  
-  if(revised)
-    D(i,:) = row;
-    for k = 1:length(G)
-      if(G(i,k) && ~ismember([k,i], arc_queue, 'rows'))
-         arc_queue(end+1,:) = [k, i];
-      end
+while changed
+  changed = false;
+  for k = 1:length(arc_queue)
+    arc = arc_queue(k,:);
+    i = arc(1);
+    j = arc(2);
+    [revised, row] = CS4300_Revise(D(i,:), i, D(j,:), j, P);
+    if(revised)
+      changed = true;
+      D(i,:) = row;
     end
   end
 end
 
 D_revised = D;
+
