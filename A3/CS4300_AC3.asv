@@ -23,7 +23,7 @@ function D_revised = CS4300_AC3(G,D,P)
 %   Fall 2016
 %
 
-arc_queue = [,];
+arc_queue = [];
 
 for i = 1:length(D)
   for j = 1:length(D)
@@ -41,9 +41,9 @@ while ~isempty(arc_queue)
   i = arc(1);
   j = arc(2);
 
-  if(G(i, j) == 0)
-    continue;
-  end
+%   if(G(i, j) == 0)
+%     continue;
+%   end
 
   [revised, row] = CS4300_Revise(D(i,:), i, D(j,:), j, P);
   
@@ -53,20 +53,24 @@ while ~isempty(arc_queue)
   end
 
   if(changed)
-    contained = false;
+%     contained = false;
     for x = 1:length(D)
-       if(i == x)
+      if(i == x)
         continue;
       end
-      for y = 1:length(arc_queue)
-        if(arc_queue(y) == [i, x])
-          contained = true;
-        end
+      
+      if(~ismember([i, x], arc_queue, 'rows'))
+          arc_queue(end+1,:) = [i, x];
       end
-      if(~contained)
-        arc_queue(end+1,:) = [i, x];
-        contained = false;
-      end
+%       for y = 1:length(arc_queue)
+%         if(arc_queue(y,:) == [i, x])
+%           contained = true;
+%         end
+%       end
+%       if(~contained)
+%         arc_queue(end+1,:) = [i, x];
+%         contained = false;
+%       end
     end
   end
 

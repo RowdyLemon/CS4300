@@ -16,11 +16,11 @@ function D_revised = CS4300_AC1(G,D,P)
 %   D = [1,1,1;1,1,1;1,1,1];
 %   Dr = CS4300_AC1(G,D,’CS6100_P_no_attack’);
 % Author:
-% Matthew Lemon
-% UU575787
-% Derek Heldt-Werle
-% UU828479
-% Fall 2016
+%   Matthew Lemon
+%   UU575787
+%   Derek Heldt-Werle
+%   UU828479
+%   Fall 2016
 %
 
 changed = true;
