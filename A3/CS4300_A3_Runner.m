@@ -1,7 +1,10 @@
 function [data, time_data] = CS4300_A3_Runner()
 % CS4300_A3_Runner - Builds statistical data on AC1 and AC3
+% On output:
+%   data (8400x6 matrix): data for each timed run
+%   time_data (7x2 matrix): average time data for each N
 % Call:
-%   CS4300_A3_Runner();
+%   [data, time_data] = CS4300_A3_Runner();
 % Author:
 %   Matthew Lemon
 %   UU575787
@@ -21,12 +24,11 @@ for N = 4:10
       D = rand(N, N) < p;
       
       tic;
-%       D1 = CS4300_AC1(G, D, 'CS4300_Revise');
-      D1 = CS4300_AC1_Bad(G, D, 'CS4300_Revise');
+      D1 = CS4300_AC1(G, D, 'CS4300_Revise');
       t1 = toc;
       
       tic;
-      D2 = CS4300_AC3_Bad(G, D, 'CS4300_Revise');
+      D2 = CS4300_AC3(G, D, 'CS4300_Revise');
       t2 = toc;
 
       r1 = sum(D(:)) - sum(D1(:));

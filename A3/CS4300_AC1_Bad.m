@@ -1,5 +1,5 @@
 function D_revised = CS4300_AC1_Bad(G,D,P)
-% CS4300_AC3 - AC3 function
+% CS4300_AC1 - AC1 function from Mackworth paper 1977
 % On input:
 %   G (nxn array): neighborhood graph for n nodes
 %   D (nxm array): m domain values for each of n nodes
@@ -14,7 +14,7 @@ function D_revised = CS4300_AC1_Bad(G,D,P)
 % Call:
 %   G = 1 - eye(3,3);
 %   D = [1,1,1;1,1,1;1,1,1];
-%   Dr = CS4300_AC1(G,D,'CS4300_P_no_attack');
+%   Dr = CS4300_AC1(G,D,’CS6100_P_no_attack’);
 % Author:
 %   Matthew Lemon
 %   UU575787
@@ -24,29 +24,21 @@ function D_revised = CS4300_AC1_Bad(G,D,P)
 %
 
 changed = true;
-arc_queue = [];
-for i = 1:length(D)
-  for j = 1:length(D)
-    if(i == j)
-      continue;
-    end
-    arc_queue(end+1,:) = [i, j];
-  end
-end
 
 while changed
   changed = false;
-  for k = 1:length(arc_queue)
-    arc = arc_queue(k,:);
-    i = arc(1);
-    j = arc(2);
-    [revised, row] = CS4300_Revise(D(i,:), i, D(j,:), j, P);
-    if(revised)
-      changed = true;
-      D(i,:) = row;
+  for i=1:length(G)
+    for j=1:length(G)
+      if(G(i, j) == 0)
+        continue;
+      end
+      [revised, row] = CS4300_Revise(D(i,:), i, D(j,:), j, P);
+      if(revised)
+        changed = true;
+        D(i,:) = row;
+      end
     end
   end
 end
 
 D_revised = D;
-
