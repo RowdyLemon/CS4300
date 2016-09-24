@@ -27,7 +27,51 @@ function Sip = CS4300_RTP(sentences,thm,vars)
 % Fall 2016
 %
 
-for i = 1:length(sentences(i))
-	
+pairs = [];
+count = 2;
+i = 1
+for i = i:length(sentences(i).clauses)
+	if (length(sentences(i).clauses < 2))
+		pairs(end+1).formula = sentences(i).clauses;
+		continue;
+	end
+	for j = i + 1:length(sentences(i))
+		pairs(end+1).formula = [sentences(i).clauses(i), sentences(i).clauses(j)]
+	end
+end
 
+for i = 1:length(thm)
+	pairs(end+1).formula = -thm(i)
+end
 
+changed = true;
+while changed
+	changed = false;
+
+	for i = 1:length(pairs)
+		for j = 1:length(pairs)
+            if (i == j)
+                continue;
+            end
+			[clause, resolution] = CS4300_Resolution(pairs(i).formula, pairs(j).formula);
+			if (resolution)
+				if (isempty(clause))
+					Sip = pairs;
+					return;
+                end
+                containsFlag = false;
+                changed = resolution;   
+				for k = 1:length(pairs)                
+					if (pairs(k).formula == clause)
+                        containsFlag = true;
+                    end
+                end
+                if (~containsFlag)
+                    pairs(end+1).formula = clause;
+                end
+            end
+        end
+    end
+end
+
+end
