@@ -23,7 +23,11 @@ for i = 1:length(a)
 		if ((a(i) + b(j)) == 0)
 			a(i) = [];
 			b(j) = [];
-			clause = [a, b];
+            if (a == b)
+                clause = a;
+            else
+                clause = [a, b];
+            end
 			resolved = true;
 			return;
 		end	

@@ -29,15 +29,18 @@ function Sip = CS4300_RTP(sentences,thm,vars)
 
 pairs = [];
 count = 2;
-i = 1
-for i = i:length(sentences(i).clauses)
-	if (length(sentences(i).clauses < 2))
+Sip = [];
+
+for i = 1:length(sentences)
+	if (length(sentences(i).clauses) < 2)
 		pairs(end+1).formula = sentences(i).clauses;
 		continue;
 	end
-	for j = i + 1:length(sentences(i))
-		pairs(end+1).formula = [sentences(i).clauses(i), sentences(i).clauses(j)]
-	end
+	for j = 1:length(sentences(i).clauses)
+        for k = j + 1:length(sentences(i).clauses)
+            pairs(end+1).formula = [sentences(i).clauses(j), sentences(i).clauses(k)]
+        end
+    end
 end
 
 for i = 1:length(thm)
@@ -47,7 +50,6 @@ end
 changed = true;
 while changed
 	changed = false;
-
 	for i = 1:length(pairs)
 		for j = 1:length(pairs)
             if (i == j)
@@ -62,7 +64,7 @@ while changed
                 containsFlag = false;
                 changed = resolution;   
 				for k = 1:length(pairs)                
-					if (pairs(k).formula == clause)
+					if (pairs(k).formula == clause | pairs(k).formula == fliplr(clause))
                         containsFlag = true;
                     end
                 end
