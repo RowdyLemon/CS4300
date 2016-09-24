@@ -19,10 +19,11 @@ function clause = CS4300_Resolution(a, b)
 clause = [];
 for i = 1:length(a)
 	for j = 1:length(b)
-		if (a(i) + b(j) == 0)
+		if ((a(i) + b(j)) == 0)
 			a(i) = [];
-			b(i) = [];
+			b(j) = [];
 			clause = [a, b];
+            return;
 		end
 	end
 end
