@@ -23,6 +23,7 @@ for i = 1:length(a)
 			a(i) = [];
 			b(i) = [];
 			clause = [a, b];
+			return;
 		end
 	end
 end
