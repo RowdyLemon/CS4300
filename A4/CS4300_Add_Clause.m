@@ -1,4 +1,4 @@
-function Sip = CS4300_RTP(sentences,thm,vars)
+function new_clauses = CS4300_Add_Clause(clauses, clause)
 % CS4300_RTP - resolution theorem prover
 % On input:
 %   sentences (CNF data structure): array of conjuctive clauses
@@ -27,25 +27,15 @@ function Sip = CS4300_RTP(sentences,thm,vars)
 % Fall 2016
 %
 
-pairs = CS4300_Construct_CNF_Pairs(sentences, thm);
-Sip = [];
+new_clauses = clauses;
+contained = false;
 
-while true
-  temp = pairs;
-  for i = 1:length(pairs)
-    for j = 1:length(pairs)
-      [clause, resolved] = CS4300_Resolution(pairs(i).formula, pairs(j).formula);
-      if(resolved)
-        if(isempty(clause))
-          Sip = pairs;
-          return;
-        end
-        temp = CS4300_Add_Clause(temp, clause);
-      end
-    end
+for k = 1:length(new_clauses)                
+  if (new_clauses(k).formula == clause | new_clauses(k).formula == fliplr(clause))
+    contained = true;
   end
-  if(length(temp) == length(pairs))
-    return; 
-  end
-  pairs = temp;
+end
+
+if(~contained)
+  new_clauses(end+1).formula = clause;
 end
