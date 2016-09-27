@@ -28,7 +28,6 @@ function Sip = CS4300_RTP(sentences,thm,vars)
 %
 
 pairs = [];
-count = 2;
 Sip = [];
 
 for i = 1:length(sentences)
@@ -74,6 +73,7 @@ while changed
             end
         end
     end
+    break;
 end
 
 end
