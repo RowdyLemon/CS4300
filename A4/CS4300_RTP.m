@@ -16,7 +16,7 @@ function Sip = CS4300_RTP(sentences,thm,vars)
 %   DP(2).clauses = [-2];
 %   DP(3).clauses = [-3];
 %   DP(4).clauses = [1];
-%   thm = [4];
+%   thm.clauses = [4];
 %   vars = [1,2,3,4];
 % Sr = CS4300_RTP(DP,thm,vars);
 % Author:
@@ -24,7 +24,7 @@ function Sip = CS4300_RTP(sentences,thm,vars)
 %   UU575787
 %   Derek Heldt-Werle
 %   UU828479
-% Fall 2016
+%   Fall 2016
 %
 
 pairs = CS4300_Construct_CNF_Pairs(sentences, thm);

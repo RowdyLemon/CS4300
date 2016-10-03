@@ -14,7 +14,7 @@ function [clause, resolved] = CS4300_Resolution(a, b)
 %   UU575787
 %   Derek Heldt-Werle
 %   UU828479
-% Fall 2016
+%   Fall 2016
 %
 clause = [];
 resolved = false;
