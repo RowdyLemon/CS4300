@@ -2,6 +2,8 @@ function percept = CS4300_Constrcut_Percept( board, location )
 % CS4300_Constrcut_Percept - Updates Knowledge base
 % On input:
 %   board (4x4 matrix): Board values
+% On output:
+%   percept (1x5 matrix): Describes current location
 % Call:
 %   board = [0,0,0,0;0,0,0,0;0,0,0,0;0,0,0,0;];
 %   x = 1;
