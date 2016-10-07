@@ -1,0 +1,31 @@
+function path = CS4300_A4b(board)
+% CS4300_A4b - runs the agent brain
+% On input:
+%   board (matrix): wumpus world board
+% On output:
+%   path (matrix): path agent took through the board
+% Call:
+%   board = [0,0,0,0;1,2,0,0;0,0,0,0;0,0,3,0]
+%   path_taken = CS4300_A4b(board);
+% Author:
+%   Matthew Lemon
+%   UU575787
+%   Derek Heldt-Werle
+%   UU828479
+%   Fall 2016
+%
+
+persistent pits;
+persistent wumpus;
+persistent ww_board;
+
+persistent agent_location;
+
+if(isempty(pits) || isempty(wumpus) || isempty(ww_board) || isempty(agent_location))
+    [pits, wumpus, ww_board, agent_location] = CS4300_Initialize_Persistent_Variables();
+end
+
+
+
+end
+
