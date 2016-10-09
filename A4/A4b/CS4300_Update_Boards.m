@@ -23,11 +23,15 @@ function [pits, wumpus, board] = CS4300_Update_Boards(p, w, b, agent, KB)
 %   Fall 2016
 %
 
+p(agent(1:2)) = 0;
+w(agent(1:2)) = 0;
+b(agent(1:2)) = 0;
+
 % Check and update left position
 if(agent(1) > 1)
   if(p(agent(1)-1, agent(2)) < 0 || w(agent(1)-1, agent(2)) < 0)
-    p(agent(1)-1, agent(2)) = CS4300_Ask(KB, CS4300_Map_ID(1, [agent(1)-1, agent(2)]));
-    w(agent(1)-1, agent(2)) = CS4300_Ask(KB, CS4300_Map_ID(2, [agent(1)-1, agent(2)]));
+    p(agent(1)-1, agent(2)) = CS4300_Ask(KB, CS4300_Map_ID(1, [agent(1)-1, agent(2)]), []);
+    w(agent(1)-1, agent(2)) = CS4300_Ask(KB, CS4300_Map_ID(2, [agent(1)-1, agent(2)]), []);
     if(w(agent(1)-1, agent(2)) == 1)
       b(agent(1)-1, agent(2)) = 2;
     elseif(p(agent(1)-1, agent(2)) == 0)
@@ -39,8 +43,8 @@ end
 % Check and update right position
 if(agent(1) < 4)
   if(p(agent(1)+1, agent(2)) < 0 || w(agent(1)+1, agent(2)) < 0)
-    p(agent(1)+1, agent(2)) = CS4300_Ask(KB, CS4300_Map_ID(1, [agent(1)+1, agent(2)]));
-    w(agent(1)+1, agent(2)) = CS4300_Ask(KB, CS4300_Map_ID(2, [agent(1)+1, agent(2)]));
+    p(agent(1)+1, agent(2)) = CS4300_Ask(KB, CS4300_Map_ID(1, [agent(1)+1, agent(2)]), []);
+    w(agent(1)+1, agent(2)) = CS4300_Ask(KB, CS4300_Map_ID(2, [agent(1)+1, agent(2)]), []);
     if(w(agent(1)+1, agent(2)) == 1)
       b(agent(1)+1, agent(2)) = 2;
     elseif(p(agent(1)+1, agent(2)) == 0)
@@ -52,8 +56,8 @@ end
 % Check and update bottom position
 if(agent(2) > 1)
   if(p(agent(1), agent(2)-1) < 0 || w(agent(1), agent(2)-1) < 0)
-    p(agent(1), agent(2)-1) = CS4300_Ask(KB, CS4300_Map_ID(1, [agent(1), agent(2)-1]));
-    w(agent(1), agent(2)-1) = CS4300_Ask(KB, CS4300_Map_ID(2, [agent(1), agent(2)-1]));
+    p(agent(1), agent(2)-1) = CS4300_Ask(KB, CS4300_Map_ID(1, [agent(1), agent(2)-1]), []);
+    w(agent(1), agent(2)-1) = CS4300_Ask(KB, CS4300_Map_ID(2, [agent(1), agent(2)-1]), []);
     if(w(agent(1), agent(2)-1) == 1)
       b(agent(1), agent(2)-1) = 2;
     elseif(p(agent(1), agent(2)-1) == 0)
@@ -65,8 +69,8 @@ end
 % Check and update top position
 if(agent(2) < 4)
   if(p(agent(1), agent(2)+1) < 0 || w(agent(1), agent(2)+1) < 0)
-    p(agent(1), agent(2)+1) = CS4300_Ask(KB, CS4300_Map_ID(1, [agent(1), agent(2)+1]));
-    w(agent(1), agent(2)+1) = CS4300_Ask(KB, CS4300_Map_ID(2, [agent(1), agent(2)+1]));
+    p(agent(1), agent(2)+1) = CS4300_Ask(KB, CS4300_Map_ID(1, [agent(1), agent(2)+1]), []);
+    w(agent(1), agent(2)+1) = CS4300_Ask(KB, CS4300_Map_ID(2, [agent(1), agent(2)+1]), []);
     if(w(agent(1), agent(2)+1) == 1)
       b(agent(1), agent(2)+1) = 2;
     elseif(p(agent(1), agent(2)+1) == 0)

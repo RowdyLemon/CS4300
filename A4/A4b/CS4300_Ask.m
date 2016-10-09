@@ -26,7 +26,7 @@ function thm_proved = CS4300_Ask(KB, thm, vars)
 %
 
 thm_proved = -1;
-if(~isemtpy(CS4300_RTP(KB, thm, vars)))
+if(~isempty(CS4300_RTP(KB, thm, vars)))
   thm_proved = 1;
 elseif(~isempty(CS4300_RTP(KB, -thm, vars)))
   thm_proved = 0;

@@ -21,9 +21,9 @@ function sentence = CS4300_Make_Percept_Sentence(percepts, location)
 %   Fall 2016
 %
 
-STENCH = 1;
-BREEZE = 2;
-GLITTER = 3;
+STENCH = 3;
+BREEZE = 4;
+GLITTER = 5;
 x = location(1);
 y = location(2);
 sentence = [];
@@ -74,7 +74,7 @@ end
 if(percepts(BREEZE))
   pit(1).clauses = pit(1).clauses, -CS4300_Map_ID(4, [x, y]);
   if(x > 1)
-    pit(1).clauses = [pit(1).clauses, CS4300_Map_ID(1, [x-1, y])];
+    pit(1).clauses = CS4300_Map_ID(1, [x-1, y]);
     pit(end+1).clauses = -CS4300_Map_ID(1, [x-1, y]);
   end
   if(x < 4)

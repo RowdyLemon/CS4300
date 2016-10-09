@@ -36,7 +36,11 @@ for i = 1:length(sentences)
   end
 end
 
-for i = 1:length(thm.clauses)
-	new_clauses(end+1).formula = -thm.clauses(i);
+% for i = 1:length(thm.clauses)
+% 	new_clauses(end+1).formula = -thm.clauses(i);
+% end
+
+for i = 1:length(thm)
+	new_clauses(end+1).formula = -thm(i);
 end
 

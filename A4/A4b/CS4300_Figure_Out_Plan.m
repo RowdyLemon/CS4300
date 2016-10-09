@@ -50,8 +50,9 @@ if(agent(2) < 4)
 end
 places = old_places;
 
+if(sum(places(1,:) == [-1,-1]) == 2)
 % check if there is anywhere to go
-if(isempty(places))
+% if(isempty(places))
   if(agent(1) > 1)
     if(b(agent(1)-1, agent(2)) == 1)
       places = [agent(1)-1, agent(2)];
@@ -71,9 +72,14 @@ if(isempty(places))
   end
 end
 
-goal = places(1);
-places = places(2:end);
-plan = CS4300_Wumpus_A_star(b, agent, [goal, 0], 'CS4300_A_Star_Man');
+goal = places(1,:);
+places = places(2:end,:);
+
+b = CS4300_Fix_Board(b);
+b = CS4300_Fix_Board(b);
+b = CS4300_Fix_Board(b);
+[so, no] = CS4300_Wumpus_A_star(b, agent, [goal, 0], 'CS4300_A_Star_Man');
+plan = so(:,4);
 
 end
 

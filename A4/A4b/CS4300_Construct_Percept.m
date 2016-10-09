@@ -1,4 +1,4 @@
-function percept = CS4300_Constrcut_Percept( board, location )
+function percept = CS4300_Construct_Percept( board, location )
 % CS4300_Constrcut_Percept - Updates Knowledge base
 % On input:
 %   board (4x4 matrix): Board values
@@ -19,7 +19,7 @@ function percept = CS4300_Constrcut_Percept( board, location )
 percept = [0,0,0,0,0];
 x = location(1);
 y = location(2);
-board  = CS4300_Fix_Board(board);
+% board  = CS4300_Fix_Board(board);
 
 if (x < 4)
     next_x_loc = (x + 1);
