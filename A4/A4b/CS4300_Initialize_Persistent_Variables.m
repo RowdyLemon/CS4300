@@ -1,4 +1,4 @@
-function [init_pits, init_wumpus, init_board, init_loc, KB] = CS4300_Initialize_Persistent_Variables()
+function [pits, wumpus, board, agent, KB, places, plan] = CS4300_Initialize_Persistent_Variables()
 % CS4300_Initialize_Persistent_Variables - initializes persistent variables
 % On output:
 %   init_pits (4x4 matrix): zeroed 4x4 matrix
@@ -14,10 +14,12 @@ function [init_pits, init_wumpus, init_board, init_loc, KB] = CS4300_Initialize_
 %   UU828479
 %   Fall 2016
 %
-init_pits = zeros(4);
-init_wumpus = zeros(4);
-init_board = zeros(4);
-init_loc = [1,1];
+pits = -ones(4);
+wumpus = -ones(4);
+board = ones(4);
+agent = [1,1,0];
 KB = [];
+places = [];
+plan = [];
 end
 
