@@ -29,7 +29,7 @@ y = location(2);
 sentence = [];
 
 sentence(end+1).clauses = - CS4300_Map_ID(1, location);
-sentence(end+1).clauses = - CS4300_Map_ID(2, location);;
+sentence(end+1).clauses = - CS4300_Map_ID(2, location);
 
 % Check Stench
 if(percepts(STENCH))

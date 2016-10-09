@@ -21,7 +21,7 @@ if isempty(next_list)
     queue_out = queue;
     return
 end
-
+option = 1;
 if option==1
     queue1 = [next_list,queue];
 else

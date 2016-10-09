@@ -1,4 +1,4 @@
-function trace = CS4300_traceback(nodes,n)
+function trace = CS4300_A_star_traceback(nodes,n)
 % CS4300_traceback - trace back to initial state from goal state
 % On input:
 %     nodes (nodes data structure): nodes of search tree

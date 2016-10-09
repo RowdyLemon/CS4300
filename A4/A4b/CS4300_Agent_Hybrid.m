@@ -4,7 +4,7 @@ function action = CS4300_Agent_Hybrid(percepts)
 %   percepts (1x5 Matrix): current percepts
 %       - [STENCH, BREEZE, GLITTER, SCREAM, BUMP]
 % On output:
-%   path (matrix): path agent took through the board
+%   action (matrix): path agent took through the board
 % Call:
 %   board = [0,0,0,0;1,2,0,0;0,0,0,0;0,0,3,0]
 %   path_taken = CS4300_A4b(board);
@@ -18,13 +18,13 @@ function action = CS4300_Agent_Hybrid(percepts)
 
 persistent pits;
 persistent wumpus;
-persistent ww_board;
+persistent board;
 
 persistent KB;
 persistent agent_location;
 
-if(isempty(pits) || isempty(wumpus) || isempty(ww_board) || isempty(agent_location) || isempty(KB))
-    [pits, wumpus, ww_board, agent_location, KB] = CS4300_Initialize_Persistent_Variables();
+if(isempty(pits) || isempty(wumpus) || isempty(board) || isempty(agent_location) || isempty(KB))
+    [pits, wumpus, board, agent_location, KB] = CS4300_Initialize_Persistent_Variables();
 end
 
 new_sentence = CS4300_Make_Percept_Sentence(percepts, agent_location);
