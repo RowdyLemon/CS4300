@@ -33,6 +33,7 @@ sentence(end+1).clauses = - CS4300_Map_ID(2, location);
 
 % Check Stench
 if(percepts(STENCH))
+  wumpus = [];
   wumpus(1).clauses = -CS4300_Map_ID(3, [x, y]);
   if(x > 1)
     wumpus(1).clauses = [wumpus(1).clauses, CS4300_Map_ID(2, [x-1, y])];
@@ -72,7 +73,8 @@ end
 
 % Check Breeze
 if(percepts(BREEZE))
-  pit(1).clauses = pit(1).clauses, -CS4300_Map_ID(4, [x, y]);
+  pit = [];
+  pit(1).clauses = -CS4300_Map_ID(4, [x, y]);
   if(x > 1)
     pit(1).clauses = [pit(1).clauses, CS4300_Map_ID(1, [x-1, y])];
     pit(end+1).clauses = -CS4300_Map_ID(1, [x-1, y]);

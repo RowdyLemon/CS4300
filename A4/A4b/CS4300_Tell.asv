@@ -18,9 +18,8 @@ function KB = CS4300_Tell( KB, sentence )
 %   UU828479
 %   Fall 2016
 %
-
+contained = false;
 for i = 1:length(sentence)
-    contained = false;
     for j = 1:length(KB)
         if(sum(ismember(KB(j).clauses, sentence(i).clauses)) == length(KB(j).clauses))
             contained = true;

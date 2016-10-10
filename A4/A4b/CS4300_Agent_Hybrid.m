@@ -30,21 +30,21 @@ persistent KB;
 persistent places;
 persistent plan;
 
-if(isempty(pits) || isempty(wumpus) || isempty(board) || isempty(KB) || isempty(places) || isempty(plan))
+if(isempty(pits))
   [pits, wumpus, board, KB, places, plan] = CS4300_Initialize_Persistent_Variables();
 end
 
 sentence = CS4300_Make_Percept_Sentence(percepts, agent);
 KB = CS4300_Tell(KB, sentence);
 
-if(CS4300_Ask(KB, CS4300_Map_ID(5, agent(1:2)), []) == 1)
+if(CS4300_Ask(KB, CS4300_Map_ID(5, agent(1:2)), []) == 1 && isempty(plan))
   plan = GRAB;
   b = CS4300_Fix_Board(board);
   b = CS4300_Fix_Board(b);
   b = CS4300_Fix_Board(b);
   [so, no] = CS4300_Wumpus_A_star(b, agent, [1,1,0], 'CS4300_A_Star_Man');
-  plan = [plan, so(:,4)];
-  plan = [plan, CLIMB];
+  plan = [plan; so(:,4)];
+  plan = [plan; CLIMB];
   action = plan(1);
   plan = plan(2:end);
   return;
