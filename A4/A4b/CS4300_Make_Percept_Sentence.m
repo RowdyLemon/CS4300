@@ -35,24 +35,18 @@ sentence(end+1).clauses = - CS4300_Map_ID(2, location);
 if(percepts(STENCH))
   wumpus = [];
   wumpus(1).clauses = -CS4300_Map_ID(3, [x, y]);
+  wumpus(2).clauses = [];
   if(x > 1)
-    wumpus(1).clauses = [wumpus(1).clauses, CS4300_Map_ID(2, [x-1, y])];
-    wumpus(end+1).clauses = -CS4300_Map_ID(2, [x-1, y]);
+    wumpus(2).clauses = [wumpus(2).clauses, CS4300_Map_ID(2, [x-1, y])];
   end
   if(x < 4)
-    wumpus(1).clauses = [wumpus(1).clauses, CS4300_Map_ID(2, [x+1, y])];
-    wumpus(end+1).clauses = -CS4300_Map_ID(2, [x+1, y]);
+    wumpus(2).clauses = [wumpus(2).clauses, CS4300_Map_ID(2, [x+1, y])];
   end
   if(y > 1)
-    wumpus(1).clauses = [wumpus(1).clauses, CS4300_Map_ID(2, [x, y-1])];
-    wumpus(end+1).clauses = -CS4300_Map_ID(2, [x, y-1]);
+    wumpus(2).clauses = [wumpus(2).clauses, CS4300_Map_ID(2, [x, y-1])];
   end
   if(y < 4)
-    wumpus(1).clauses = [wumpus(1).clauses, CS4300_Map_ID(2, [x, y+1])];
-    wumpus(end+1).clauses = -CS4300_Map_ID(2, [x, y+1]);
-  end
-  for i = 2:length(wumpus)
-    wumpus(i).clauses = [wumpus(i).clauses, CS4300_Map_ID(3, [x, y])];
+    wumpus(2).clauses = [wumpus(2).clauses, CS4300_Map_ID(2, [x, y+1])];
   end
   sentence = [sentence, wumpus];
 else
@@ -71,28 +65,63 @@ else
   end
 end
 
+
+% % Check Breeze
+% if(percepts(BREEZE))
+%   pit = [];
+%   pit(1).clauses = -CS4300_Map_ID(4, [x, y]);
+%   if(x > 1)
+%     pit(1).clauses = [pit(1).clauses, CS4300_Map_ID(1, [x-1, y])];
+%     pit(end+1).clauses = -CS4300_Map_ID(1, [x-1, y]);
+%   end
+%   if(x < 4)
+%     pit(1).clauses = [pit(1).clauses, CS4300_Map_ID(1, [x+1, y])];
+%     pit(end+1).clauses = -CS4300_Map_ID(1, [x+1, y]);
+%   end
+%   if(y > 1)
+%     pit(1).clauses = [pit(1).clauses, CS4300_Map_ID(1, [x, y-1])];
+%     pit(end+1).clauses = -CS4300_Map_ID(1, [x, y-1]);
+%   end
+%   if(y < 4)
+%     pit(1).clauses = [pit(1).clauses, CS4300_Map_ID(1, [x, y+1])];
+%     pit(end+1).clauses = -CS4300_Map_ID(1, [x, y+1]);
+%   end
+%   for i = 2:length(pit)
+%     pit(i).clauses = [pit(i).clauses, CS4300_Map_ID(4, [x, y])];
+%   end
+%   sentence = [sentence, pit];
+% else
+%   sentence(end + 1).clauses = -CS4300_Map_ID(4, [x, y]);
+%   if(x > 1)
+%     sentence(end + 1).clauses = -CS4300_Map_ID(1, [x-1, y]);
+%   end
+%   if(x < 4)
+%     sentence(end + 1).clauses = -CS4300_Map_ID(1, [x+1, y]);
+%   end
+%   if(y > 1)
+%     sentence(end + 1).clauses = -CS4300_Map_ID(1, [x, y-1]);
+%   end
+%   if(y < 4)
+%     sentence(end + 1).clauses = -CS4300_Map_ID(1, [x, y+1]);
+%   end
+% end
+
 % Check Breeze
 if(percepts(BREEZE))
   pit = [];
   pit(1).clauses = -CS4300_Map_ID(4, [x, y]);
+  pit(2).clauses = [];
   if(x > 1)
-    pit(1).clauses = [pit(1).clauses, CS4300_Map_ID(1, [x-1, y])];
-    pit(end+1).clauses = -CS4300_Map_ID(1, [x-1, y]);
+    pit(2).clauses = [pit(2).clauses, CS4300_Map_ID(1, [x-1, y])];
   end
   if(x < 4)
-    pit(1).clauses = [pit(1).clauses, CS4300_Map_ID(1, [x+1, y])];
-    pit(end+1).clauses = -CS4300_Map_ID(1, [x+1, y]);
+    pit(2).clauses = [pit(2).clauses, CS4300_Map_ID(1, [x+1, y])];
   end
   if(y > 1)
-    pit(1).clauses = [pit(1).clauses, CS4300_Map_ID(1, [x, y-1])];
-    pit(end+1).clauses = -CS4300_Map_ID(1, [x, y-1]);
+    pit(2).clauses = [pit(2).clauses, CS4300_Map_ID(1, [x, y-1])];
   end
   if(y < 4)
-    pit(1).clauses = [pit(1).clauses, CS4300_Map_ID(1, [x, y+1])];
-    pit(end+1).clauses = -CS4300_Map_ID(1, [x, y+1]);
-  end
-  for i = 2:length(pit)
-    pit(i).clauses = [pit(i).clauses, CS4300_Map_ID(4, [x, y])];
+    pit(2).clauses = [pit(2).clauses, CS4300_Map_ID(1, [x, y+1])];
   end
   sentence = [sentence, pit];
 else

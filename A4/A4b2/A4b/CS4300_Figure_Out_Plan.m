@@ -26,6 +26,8 @@ function [plan, places, visited] = CS4300_Figure_Out_Plan(b, agent, old_places, 
 %   UU828479
 %   Fall 2016
 %
+plan = [];
+b = rot90(b, -1);
 
 % add locations to places
 if(agent(1) > 1)
@@ -53,33 +55,40 @@ places = old_places;
 if(sum(places(1,:) == [-1,-1]) == 2)
 % check if there is anywhere to go
 % if(isempty(places))
-  if(agent(1) > 1)
-    if(b(agent(1)-1, agent(2)) == 1)
-      places = [agent(1)-1, agent(2)];
-    end
-  elseif(agent(1) < 4)
-    if(b(agent(1)+1, agent(2)) == 1)
-      places = [agent(1)+1, agent(2)];
+  if(agent(2) < 4)
+    if(b(agent(1), agent(2)+1) == 1)
+      places = [agent(1), agent(2)+1];
+      b(agent(1), agent(2)+1) = 3;
     end
   elseif(agent(2) > 1)
     if(b(agent(1), agent(2)-1) == 1)
       places = [agent(1), agent(2)-1];
+      b(agent(1), agent(2)-1) = 0;
     end
-  elseif(agent(2) < 4)
-    if(b(agent(1), agent(2)+1) == 1)
-      places = [agent(1), agent(2)+1];
+  elseif(agent(1) > 1)
+    if(b(agent(1)-1, agent(2)) == 1)
+      places = [agent(1)-1, agent(2)];
+      b(agent(1)-1, agent(2)) = 0;
+    end
+  elseif(agent(1) < 4)
+    if(b(agent(1)+1, agent(2)) == 1)
+      places = [agent(1)+1, agent(2)];
+      b(agent(1)+1, agent(2)) = 0;
     end
   end
 end
 
 goal = places(1,:);
+if(b(goal(1), goal(2)) == 3)
+  plan = [3,5];
+  visited = v;
+  return;
+end
+
 places = places(2:end,:);
 visited = [v; goal];
-b = CS4300_Fix_Board(b);
-b = CS4300_Fix_Board(b);
-b = CS4300_Fix_Board(b);
-[so, no] = CS4300_Wumpus_A_star(b, agent, [goal, 0], 'CS4300_A_Star_Man');
-plan = so(:,4);
-
+b = rot90(b);
+[so, no] = CS4300_Wumpus_A_star(b, agent, [goal, 0], 'CS4300_A_star_Man');
+plan = so(2:end,4);
 end
 

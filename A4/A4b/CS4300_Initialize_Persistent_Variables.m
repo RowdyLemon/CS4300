@@ -1,4 +1,4 @@
-function [pits, wumpus, board, KB, places, plan] = CS4300_Initialize_Persistent_Variables()
+function [pits, wumpus, board, KB, places, plan, visited] = CS4300_Initialize_Persistent_Variables()
 % CS4300_Initialize_Persistent_Variables - initializes persistent variables
 % On output:
 %   init_pits (4x4 matrix): zeroed 4x4 matrix
@@ -20,5 +20,6 @@ board = ones(4);
 KB = [];
 places = [-1,-1];
 plan = [];
+visited = [-1,-1];
 end
 

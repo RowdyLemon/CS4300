@@ -1,4 +1,4 @@
-function [plan, places, visited] = CS4300_Figure_Out_Plan(b, agent, old_places, v)
+function [plan, places, visited] = CS4300_Figure_Out_Plan(b, agent, old_places, visited)
 % CS4300_Figure_Out_Plan - creates a plan and updates places to visit
 % On input:
 %   p (4x4 Matrix): Describes current knowledge of pits
@@ -29,22 +29,22 @@ function [plan, places, visited] = CS4300_Figure_Out_Plan(b, agent, old_places, 
 
 % add locations to places
 if(agent(1) > 1)
-  if(b(agent(1)-1, agent(2)) < 1 && ~ismember([agent(1)-1, agent(2)], v, 'rows') && ~ismember([agent(1)-1, agent(2)], old_places, 'rows'))
+  if(b(agent(1)-1, agent(2)) < 1 && ~ismember([agent(1)-1, agent(2)], visited, 'rows') && ~ismember([agent(1)-1, agent(2)], old_places, 'rows'))
     old_places = [agent(1)-1, agent(2); old_places];
   end
 end
 if(agent(1) < 4)
-  if(b(agent(1)+1, agent(2)) < 1 && ~ismember([agent(1)+1, agent(2)], v, 'rows') && ~ismember([agent(1)+1, agent(2)], old_places, 'rows'))
+  if(b(agent(1)+1, agent(2)) < 1 && ~ismember([agent(1)+1, agent(2)], visited, 'rows') && ~ismember([agent(1)+1, agent(2)], old_places, 'rows'))
     old_places = [agent(1)+1, agent(2); old_places];
   end
 end
 if(agent(2) > 1)
-  if(b(agent(1), agent(2)-1) < 1 && ~ismember([agent(1), agent(2)-1], v, 'rows') && ~ismember([agent(1), agent(2)-1], old_places, 'rows'))
+  if(b(agent(1), agent(2)-1) < 1 && ~ismember([agent(1), agent(2)-1], visited, 'rows') && ~ismember([agent(1), agent(2)-1], old_places, 'rows'))
     old_places = [agent(1), agent(2)-1; old_places];
   end
 end
 if(agent(2) < 4)
-  if(b(agent(1), agent(2)+1) < 1 && ~ismember([agent(1), agent(2)+1], v, 'rows') && ~ismember([agent(1), agent(2)+1], old_places, 'rows'))
+  if(b(agent(1), agent(2)+1) < 1 && ~ismember([agent(1), agent(2)+1], visited, 'rows') && ~ismember([agent(1), agent(2)+1], old_places, 'rows'))
     old_places = [agent(1), agent(2)+1; old_places];
   end
 end
@@ -74,7 +74,7 @@ end
 
 goal = places(1,:);
 places = places(2:end,:);
-visited = [v; goal];
+visited = [visited; goal];
 b = CS4300_Fix_Board(b);
 b = CS4300_Fix_Board(b);
 b = CS4300_Fix_Board(b);
