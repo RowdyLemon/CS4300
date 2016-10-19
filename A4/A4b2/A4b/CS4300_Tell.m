@@ -20,16 +20,18 @@ function KB = CS4300_Tell( KB, sentence )
 %
 
 for i = 1:length(sentence)
-    contained = false;
-    for j = 1:length(KB)
-        if(sum(ismember(KB(j).clauses, sentence(i).clauses)) == length(KB(j).clauses))
-            contained = true;
-        end
+  contained = false;
+  for j = 1:length(KB)
+    if(sum(ismember(KB(j).clauses, sentence(i).clauses)) == length(KB(j).clauses))
+      contained = true;
+    elseif(sum(ismember(-KB(j).clauses, sentence(i).clauses)) == length(KB(j).clauses))
+      contained = true;
+      KB(j).clauses = sentence(i).clauses;
     end
-    if (~contained)
-        KB(end+1).clauses = sentence(i).clauses;
-        contained = false;
-    end
+  end
+  if (~contained)
+    KB(end+1).clauses = sentence(i).clauses;
+  end
 end
 
 end

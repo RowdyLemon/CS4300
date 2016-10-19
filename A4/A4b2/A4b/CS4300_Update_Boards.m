@@ -27,9 +27,9 @@ p = rot90(p,-1);
 w = rot90(w,-1);
 b = rot90(b,-1);
 
-p(agent(1:2)) = 0;
-w(agent(1:2)) = 0;
-b(agent(1:2)) = 0;
+p(agent(1), agent(2)) = 0;
+w(agent(1), agent(2)) = 0;
+b(agent(1), agent(2)) = 0;
 
 % Check and update left position
 if(agent(1) > 1)

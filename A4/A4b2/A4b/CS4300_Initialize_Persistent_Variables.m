@@ -25,10 +25,7 @@ agent = [1,1,0];
 KB = CS4300_Initialize_KB();
 places = [-1,-1];
 plan = [];
-visited = [-1,-1];
-vars = [];
-for i = 1:length(KB)
-  vars = [vars, KB(i).clauses];
-end
-vars = unique(vars);
+visited = [1,1;-1,-1];
+vars = CS4300_Update_Vars(KB, []);
+
 end

@@ -34,35 +34,33 @@ persistent visited;
 persistent vars;
 
 if(isempty(pits))
-  [pits, wumpus, board, agent, KB, places, plan, visited, vars] = CS4300_Initialize_Persistent_Variables();
+  [pits, wumpus, board, agent, KB, places, plan, visited, vars]...
+      = CS4300_Initialize_Persistent_Variables();
 end
 
+% Create sentence based on percepts and update KB and vars
 sentence = CS4300_Make_Percept_Sentence(percept, agent(1:2));
 KB = CS4300_Tell(KB, sentence);
-for i = 1:length(sentence)
-  vars = [vars, sentence(i).clauses];
-end
-vars = unique(vars);
+vars = CS4300_Update_Vars(sentence, vars);
 
-if(CS4300_Ask(KB, CS4300_Map_ID(5, agent(1:2)), vars) == 1 && isempty(plan))
+% Check if we have found the gold
+if(CS4300_Ask(KB, CS4300_Map_ID(5, agent(1:2)), vars)==1 && isempty(plan))
   plan = GRAB;
-  [so, no] = CS4300_Wumpus_A_star(board, agent, [1,1,0], 'CS4300_A_star_Man');
+  [so,no] = CS4300_Wumpus_A_star(board, agent, [1,1,0], 'CS4300_A_star_Man');
   plan = [plan; so(2:end,4)];
   plan = [plan; CLIMB];
-  action = plan(1);
-  plan = plan(2:end);
-  return;
 end
 
-if(~isempty(plan))
-  action = plan(1);
-  plan = plan(2:end); 
-else
-  [pits, wumpus, board] = CS4300_Update_Boards(pits, wumpus, board, agent, KB, vars);
-  [plan, places, visited] = CS4300_Figure_Out_Plan(board, agent, places, visited);
-  action = plan(1);
-  plan = plan(2:end);
+% If we dont have a plan make one
+if(isempty(plan))
+  [pits, wumpus, board]...
+      = CS4300_Update_Boards(pits, wumpus, board, agent, KB, vars);
+  [plan, places, visited, board]...
+      = CS4300_Figure_Out_Plan(board, agent, places, visited);
 end
+
+action = plan(1);
+plan = plan(2:end);
 
 agent = CS4300_Perform_Action(action, agent);
 
