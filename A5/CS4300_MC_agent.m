@@ -17,10 +17,12 @@ function action = CS4300_MC_agent(percept)
 %       6: CLIMB 
 % Call: 
 %     a = CS4300_MC_agent(percept); 
-% Author: 
-%     T. Henderson 
-%     UU 
-%     Fall 2016 
+% Author:
+% 	Derek Heldt-Werle
+% 	UU828479
+%	Matthew Lemon
+%	UU575787
+% 	Fall 2016
 %
 FORWARD = 1;
 RIGHT = 2;
@@ -57,5 +59,7 @@ if have_gold==1&~isempty(plan)
 	plan = plan(2:end);
 	return 
 end
+
+
 % incorporate new percepts % update info % find safest place to go
 
