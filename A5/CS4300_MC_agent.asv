@@ -57,6 +57,7 @@ if isempty(agent)
 	have_arrow = 1;
 end
 
+visited(agent.x, agent.y) = 1;
 
 if percept(3) == 1
     [so,no] = CS4300_Wumpus_A_star(board, agent, [1,1,0], 'CS4300_A_star_Man');
@@ -70,13 +71,8 @@ if isempty(plan)
     [pits, wumpus] = CS4300_WP_estimates(breezes,stench, num_trials); 
     [neighbors, safe_neighbors] = CS4300_Get_Frontier_Neighbors(agent, visited, ... 
         frontier, percept, safe);
-    board = CS4300_Update_Board(safe, board);
     frontier = [neighbors; frontier];
-    safe = [safe_neighbors; safe];
-    if ~ismember([x-1, y], visited, 'rows')
-        visited = [visited; agent.x, agent.y]
-    end
-
+    safe = [safe; 
     
 end
 

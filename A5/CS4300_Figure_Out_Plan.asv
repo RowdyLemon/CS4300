@@ -1,0 +1,14 @@
+function [plan, frontier, safe, board] = CS4300_Figure_Out_Plan(b, agent, ...
+    old_frontier, old_safe, pits, wumpus)
+% CS4300_Figure_Out_Plan - returns plan to execute
+% On input:
+%   b (4x4 vector): current knowledge of board
+%   agent (agent struct): location of agent
+%   old_frontier (nx2): x, y locations of frontier cells
+%   old_safe (nx2): x, y locations of safe cells
+%   p (4x4 matrix): agents perceived state of the wumpus world
+
+
+
+end
+
