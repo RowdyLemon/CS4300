@@ -73,11 +73,10 @@ if isempty(plan)
     board = CS4300_Update_Board(safe, board);
     frontier = [neighbors; frontier];
     safe = [safe_neighbors; safe];
-    if ~ismember([x-1, y], visited, 'rows')
+    if ~ismember([agent.x, agent.y], visited, 'rows')
         visited = [visited; agent.x, agent.y]
     end
-
-    
+    [plan, frontier, safe, board] = CS4300_Figure_Out_Plan(board,agent, frontier, safe, pits, wumpus);
 end
 
 action = plan(1);

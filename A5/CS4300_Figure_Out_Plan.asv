@@ -6,7 +6,59 @@ function [plan, frontier, safe, board] = CS4300_Figure_Out_Plan(b, agent, ...
 %   agent (agent struct): location of agent
 %   old_frontier (nx2): x, y locations of frontier cells
 %   old_safe (nx2): x, y locations of safe cells
-%   p (4x4 matrix): agents perceived state of the wumpus world
+%   pits (4x4 matrix): percentage of chances of pits
+%   wumpus (4x4 matrix): percentage of chances of wumpus
+% On output:
+%   plan (Array): actions to perform
+%   frontier (nx2 matrix): x, y coords of places to visit
+%   safe (nx2 matrix): x, y coords of safe places to visit
+%   board (4x4 matrix): agents perceived state of the wumpus world 
+% Call:
+%   pits = -ones(4);
+%   wumpus = -ones(4);
+%   agent.x = 1;
+%   agent.y = 1;
+%   board = ones(4);
+%   agent = [1,1,0];
+%   old_frontier = [];
+%   old_safe = [];
+%   [plan, frontier, safe, board] = CS4300_Update_Boards(board, agent, old_frontier,
+%   old_safe, pits, wumpus);
+% Author:
+% 	Derek Heldt-Werle
+% 	UU828479
+%	Matthew Lemon
+%	UU575787
+% 	Fall 2016
+%
+
+if ~isempty(old_safe)
+    [so,no] = CS4300_Wumpus_A_star(board, agent, old_safe(1), 'CS4300_A_star_Man');
+    plan = so(2:end,4);
+    safe = old_safe(2:end);
+    return;
+else
+    wumpus_xy = old_frontier(1);
+    pit_xy = old_frontier(1);
+    no_wumpus
+    
+    for i = 2:length(old_frontier)
+        if wumpus(old_frontier(i,:)) > wumpus(wumpus_xy)
+            wumpus_xy = old_frontier(i);
+        end
+        if pits(old_frontier(i,:)) < pits(pit_xy)
+            pit_xy = old_frontier(i);
+        end
+    end
+    if wumpus(wumpus_xy) == 0
+        [so,no] = CS4300_Wumpus_A_star(board, agent, pit_xy, 'CS4300_A_star_Man');
+         plan = so(2:end,4);
+    else
+        [so,no] = CS4300_Wumpus_A_star(board, agent, wumpus_xy, 'CS4300_A_star_Man');
+         plan = so(2:end,4);
+         plan(end) = 5;
+    end
+end
 
 
 

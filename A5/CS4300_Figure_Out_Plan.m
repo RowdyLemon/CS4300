@@ -31,14 +31,53 @@ function [plan, frontier, safe, board] = CS4300_Figure_Out_Plan(b, agent, ...
 %	UU575787
 % 	Fall 2016
 %
+safe = old_safe;
+frontier = old_frontier;
 
-if ~isempty(safe)
-    [so,no] = CS4300_Wumpus_A_star(board, agent, safe, 'CS4300_A_star_Man');
+if ~isempty(old_safe)
+    [so,no] = CS4300_Wumpus_A_star(b, agent, old_safe(1), 'CS4300_A_star_Man');
     plan = so(2:end,4);
-    return;
+    safe = old_safe(2:end);
+else
+    wumpus_xy = old_frontier(1);
+    pit_xy = old_frontier(1);
+    no_wumpus_flag = 0;
+    
+    for i = 2:length(old_frontier)
+        if wumpus(old_frontier(i,:)) > wumpus(wumpus_xy)
+            wumpus_xy = old_frontier(i);
+        end
+        if pits(old_frontier(i,:)) < pits(pit_xy)
+            pit_xy = old_frontier(i);
+        end
+    end
+    if wumpus(wumpus_xy) == 0
+        [so,no] = CS4300_Wumpus_A_star(b, agent, pit_xy, 'CS4300_A_star_Man');
+         plan = so(2:end,4);
+         no_wumpus_flag = 1;
+         b(pit_xy(1), pit_xy(2)) = 0;
+    else
+        [so,no] = CS4300_Wumpus_A_star(b, agent, wumpus_xy, 'CS4300_A_star_Man');
+         plan = so(2:end,4);
+         plan(end) = 5;
+         b(wumpus_xy(1), wumpus_xy(2)) = 0;
+    end
+    if no_wumpus_flag
+        for i = 1:length(old_frontier)
+            if pit_xy == old_frontier(i)
+                old_frontier(i) = [];
+            end
+        end
+    else
+        for i = 1:length(old_frontier)
+            if wumpus_xy == old_frontier(i)
+                old_frontier(i) = [];
+            end
+        end   
+    end
+    frontier = old_frontier;
 end
-
-
+board = b;
 
 end
 
