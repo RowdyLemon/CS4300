@@ -25,6 +25,13 @@ safe_neighbors = [];
 x = agent.x;
 y = agent.y;
 
+if isempty(frontier) 
+    frontier = [-1,-1];
+end
+if isempty(safe)
+    safe = [-1,-1];
+end
+
 if(x > 1 ...
    && ~ismember([x-1, y], visited, 'rows') ...
    && ~ismember([x-1, y], frontier, 'rows') ...
@@ -39,7 +46,7 @@ end
 if(x < 4 ...
    && ~ismember([x+1, y], visited, 'rows') ...
    && ~ismember([x+1, y], frontier, 'rows') ...
-   && ~ismember([x+1, y], old_safe, 'rows'))
+   && ~ismember([x+1, y], safe, 'rows'))
     if ~percept(1) && ~percept(2)
         safe_neighbors = [safe_neighbors; x+1, y];
     else
@@ -49,7 +56,7 @@ end
 if(y > 1 ...
    && ~ismember([x, y-1], visited, 'rows') ...
    && ~ismember([x, y-1], frontier, 'rows') ...
-   && ~ismember([x, y-1], old_safe, 'rows'))
+   && ~ismember([x, y-1], safe, 'rows'))
     if ~percept(1) && ~percept(2)
         safe_neighbors = [safe_neighbors; x, y-1];
     else
@@ -59,7 +66,7 @@ end
 if(y < 4 ...
    && ~ismember([x, y+1], visited, 'rows') ... 
    && ~ismember([x, y+1], frontier, 'rows') ...
-   && ~ismember([x, y+1], old_safe, 'rows'))
+   && ~ismember([x, y+1], safe, 'rows'))
     if ~percept(1) && ~percept(2)
         safe_neighbors = [safe_neighbors; x, y+1];
     else

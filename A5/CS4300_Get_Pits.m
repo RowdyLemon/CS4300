@@ -24,8 +24,8 @@ function pits = CS4300_Get_Pits(board)
 pits = zeros(4,4);
 for i = 1:length(board)
     for j = 1:length(board)
-        if board(i,j) == 1
-            pits(i,j) = 1;
+        if board(4 - j + 1, i) == 1
+            pits(4 - j + 1, i) = 1;
         end
     end
 end

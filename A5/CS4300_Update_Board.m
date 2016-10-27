@@ -18,6 +18,6 @@ function b = CS4300_Update_Board( safe, board )
 %
 b = board;
 for i = 1:length(safe)
-    b(safe(i,1), safe(i,2)) = 0;
+    b(4 - safe(i,2) + 1,safe(i,1)) = 0;
 end
 

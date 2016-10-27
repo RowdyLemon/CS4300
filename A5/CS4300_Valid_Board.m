@@ -34,8 +34,8 @@ valid = 1;
 
 for i = 1:length(board)
 	for j = 1:length(board)
-        agent.x = (length(board)- i) + 1;
-        agent.y = j;
+        agent.x = (length(board) - j) + 1;
+        agent.y = i;
         percept = CS4300_get_percept(board, agent, 0, 0);
 		if stench(i,j) ~= -1 && percept(1) ~= stench(i,j)
 			valid = 0;

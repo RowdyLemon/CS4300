@@ -1,4 +1,5 @@
-function [neighbors, safe] = CS4300_Get_Frontier_Neighbors(agent, visited, frontier, percept, old_safe)
+function [neighbors, safe_neighbors] = CS4300_Get_Frontier_Neighbors(agent, ...
+    visited, frontier, percept, safe)
 % CS4300_Get_Neighbors - returns neighbors of given cell
 % On input:
 %   agent (agent struct): x, y location of agent
@@ -20,15 +21,23 @@ function [neighbors, safe] = CS4300_Get_Frontier_Neighbors(agent, visited, front
 %
 
 neighbors = [];
+safe_neighbors = [];
 x = agent.x;
 y = agent.y;
+
+if isempty(frontier) 
+    frontier = [-1,-1];
+end
+if isempty(safe)
+    safe = [-1,-1];
+end
 
 if(x > 1 ...
    && ~ismember([x-1, y], visited, 'rows') ...
    && ~ismember([x-1, y], frontier, 'rows') ...
-   && ~ismember([x-1, y], old_safe, 'rows'))
+   && ~ismember([x-1, y], safe, 'rows'))
     if ~percept(1) && ~percept(2)
-        safe = [safe; x-1, y];
+        safe_neighbors = [safe_neighbors; x-1, y];
     else
         neighbors = [neighbors; x-1, y];
     end
@@ -37,18 +46,32 @@ end
 if(x < 4 ...
    && ~ismember([x+1, y], visited, 'rows') ...
    && ~ismember([x+1, y], frontier, 'rows') ...
-   && ~ismember([x+1, y], old_safe, 'rows'))
+   && ~ismember([x+1, y], safe, 'rows'))
     if ~percept(1) && ~percept(2)
-        safe = [safe; x+1, y];
+        safe_neighbors = [safe_neighbors; x+1, y];
     else
         neighbors = [neighbors; x+1, y];
     end
 end
-if(y > 1 && ~ismember([x, y-1], visited, 'rows') && ~ismember([x, y-1], frontier, 'rows'))
-  neighbors = [neighbors; x, y-1];
+if(y > 1 ...
+   && ~ismember([x, y-1], visited, 'rows') ...
+   && ~ismember([x, y-1], frontier, 'rows') ...
+   && ~ismember([x, y-1], oldsafe, 'rows'))
+    if ~percept(1) && ~percept(2)
+        safe_neighbors = [safe_neighbors; x, y-1];
+    else
+        neighbors = [neighbors; x, y-1];
+    end
 end
-if(y < 4 && ~ismember([x, y+1], visited, 'rows')&& ~ismember([x, y+1], frontier, 'rows'))
-  neighbors = [neighbors; x, y+1];
+if(y < 4 ...
+   && ~ismember([x, y+1], visited, 'rows') ... 
+   && ~ismember([x, y+1], frontier, 'rows') ...
+   && ~ismember([x, y+1], old_safe, 'rows'))
+    if ~percept(1) && ~percept(2)
+        safe_neighbors = [safe_neighbors; x, y+1];
+    else
+        neighbors = [neighbors; x, y+1];
+    end
 end
 
 end

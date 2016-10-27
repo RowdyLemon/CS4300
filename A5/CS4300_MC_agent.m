@@ -41,46 +41,47 @@ if isempty(agent)
 	agent.x = 1;
 	agent.y = 1;
 	agent.dir = 0;
-	safe = -ones(4,4);
+	safe = [];
 	pits = -ones(4,4);
 	wumpus = -ones(4,4);
     breezes = -ones(4,4);
     stench = -ones(4,4);
-	board = -ones(4,4);
-	visited = zeros(4,4);
-	frontier = zeros(4,4);
-	safe(4,1) = 1;
+	board = ones(4,4);
+	visited = [1,1];
+	frontier = [];
 	pits(4,1) = 0;
 	wumpus(4,1) = 0;
 	board(4,1) = 0;
-	visited(4,1) = 1;
 	have_arrow = 1;
 end
 
+board(4 - agent.y + 1, agent.x) = 0;
 
-if percept(3) == 1
-    [so,no] = CS4300_Wumpus_A_star(board, agent, [1,1,0], 'CS4300_A_star_Man');
+if percept(3) == 1 && isempty(plan)
+    [so,no] = CS4300_Wumpus_A_star(board, [agent.x, agent.y, agent.dir], [1,1,0], 'CS4300_A_star_Man');
     plan = [GRAB; so(2:end,4)];
     plan = [plan; CLIMB];
 end
 
 if isempty(plan)
-    breezes(agent.x, agent.y) = percept(2);
-    stench(agent.x, agent.y) = percept(1);
+    breezes(4 - agent.y + 1, agent.x) = percept(2);
+    stench(4 - agent.y + 1, agent.x) = percept(1);
     [pits, wumpus] = CS4300_WP_estimates(breezes,stench, num_trials); 
     [neighbors, safe_neighbors] = CS4300_Get_Frontier_Neighbors(agent, visited, ... 
         frontier, percept, safe);
-    board = CS4300_Update_Board(safe, board);
     frontier = [neighbors; frontier];
     safe = [safe_neighbors; safe];
+    board = CS4300_Update_Board(safe, board);
     if ~ismember([agent.x, agent.y], visited, 'rows')
-        visited = [visited; agent.x, agent.y]
+        visited = [visited; agent.x, agent.y];
     end
-    [plan, frontier, safe, board] = CS4300_Figure_Out_Plan(board,agent, frontier, safe, pits, wumpus);
+    [plan, frontier, safe, board, have_arrow] = CS4300_Figure_Out_Plan(board,agent,...
+        frontier, safe, pits, wumpus, have_arrow);
 end
 
 action = plan(1);
+if action == SHOOT && ~percept(1)
+    plan(end+1) = FORWARD;
+end
+agent = CS4300_Perform_Action(action, agent);
 plan = plan(2:end);
-
-% incorporate new percepts % update info % find safest place to go
-

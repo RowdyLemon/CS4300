@@ -1,5 +1,5 @@
-function [plan, frontier, safe, board] = CS4300_Figure_Out_Plan(b, agent, ...
-    old_frontier, old_safe, pits, wumpus)
+function [plan, frontier, safe, board, have_arrow] = CS4300_Figure_Out_Plan(b, agent, ...
+    old_frontier, old_safe, pits, wumpus, arrow)
 % CS4300_Figure_Out_Plan - returns plan to execute
 % On input:
 %   b (4x4 vector): current knowledge of board
@@ -33,34 +33,38 @@ function [plan, frontier, safe, board] = CS4300_Figure_Out_Plan(b, agent, ...
 %
 safe = old_safe;
 frontier = old_frontier;
-
+have_arrow = arrow;
 if ~isempty(old_safe)
-    [so,no] = CS4300_Wumpus_A_star(b, agent, old_safe(1), 'CS4300_A_star_Man');
+    [so,no] = CS4300_Wumpus_A_star(b, [agent.x, agent.y, agent.dir], [old_safe(1,:),0], 'CS4300_A_star_Man');
     plan = so(2:end,4);
-    safe = old_safe(2:end);
+    safe = old_safe(2:end,:);
 else
-    wumpus_xy = old_frontier(1);
-    pit_xy = old_frontier(1);
+    wumpus_xy = old_frontier(1,:);
+    pit_xy = old_frontier(1,:);
     no_wumpus_flag = 0;
     
     for i = 2:length(old_frontier)
-        if wumpus(old_frontier(i,:)) > wumpus(wumpus_xy)
-            wumpus_xy = old_frontier(i);
+        if wumpus(4 - old_frontier(i,2) + 1, old_frontier(i,1)) > wumpus(4 - wumpus_xy(2) + 1, wumpus_xy(1))
+            wumpus_xy = old_frontier(i,:);
         end
-        if pits(old_frontier(i,:)) < pits(pit_xy)
-            pit_xy = old_frontier(i);
+        if pits(4 - old_frontier(i,2) + 1) < pits(4 - pit_xy(2) + 1, pit_xy(1))
+            pit_xy = old_frontier(i,:);
         end
     end
-    if wumpus(wumpus_xy) == 0
-        [so,no] = CS4300_Wumpus_A_star(b, agent, pit_xy, 'CS4300_A_star_Man');
+    if wumpus(4 - wumpus_xy(2) + 1, wumpus_xy(1)) == 0 || ~have_arrow
+        b(4 - pit_xy(2) + 1, pit_xy(1)) = 0;
+        [so,no] = CS4300_Wumpus_A_star(b, [agent.x, agent.y, agent.dir], ...
+            [pit_xy,0], 'CS4300_A_star_Man');
          plan = so(2:end,4);
          no_wumpus_flag = 1;
-         b(pit_xy(1), pit_xy(2)) = 0;
-    else
-        [so,no] = CS4300_Wumpus_A_star(b, agent, wumpus_xy, 'CS4300_A_star_Man');
+    elseif have_arrow
+        b(4 - wumpus_xy(2) + 1, wumpus_xy(1)) = 0;
+        [so,no] = CS4300_Wumpus_A_star(b, [agent.x, agent.y, agent.dir], ...
+            [wumpus_xy,0], 'CS4300_A_star_Man');
          plan = so(2:end,4);
          plan(end) = 5;
-         b(wumpus_xy(1), wumpus_xy(2)) = 0;
+         plan(end+1) = 1;
+         have_arrow = 0;
     end
     if no_wumpus_flag
         for i = 1:length(old_frontier)
@@ -78,6 +82,5 @@ else
     frontier = old_frontier;
 end
 board = b;
-
 end
 
