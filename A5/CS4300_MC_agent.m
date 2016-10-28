@@ -31,13 +31,12 @@ GRAB = 4;
 SHOOT = 5;
 CLIMB = 6;
 
-num_trials = 1000;
+num_trials = 50;
 
-persistent safe pits wumpus board have_gold have_arrow plan breezes stench
-persistent agent frontier visited t
+persistent safe pits wumpus board have_arrow plan breezes stench
+persistent agent frontier visited
 
 if isempty(agent)     
-	t = 0;
 	agent.x = 1;
 	agent.y = 1;
 	agent.dir = 0;

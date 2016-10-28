@@ -18,18 +18,20 @@ function [scores,traces] = CS4300_A5_Runner(max_steps,f_name, boards)
 %
 
 traces = [];
+scores = [];
 
-agent.x = 1;
-agent.y = 1;
-agent.alive = 1;  
-agent.gold = 0;  % grabbed gold in same room
-agent.dir = 0;  % facing right
-agent.succeed = 0;  % has gold and climbed out
-agent.climbed = 0; % climbed out
-
-clear(f_name);
+% agent.x = 1;
+% agent.y = 1;
+% agent.alive = 1;  
+% agent.gold = 0;  % grabbed gold in same room
+% agent.dir = 0;  % facing right
+% agent.succeed = 0;  % has gold and climbed out
+% agent.climbed = 0; % climbed out
+% 
+% clear(f_name);
 
 for i=1:length(boards)
+    clear(f_name);
     [score,trace] = CS4300_WW1(max_steps,f_name,boards(i).board);
     scores(i).board = boards(i).board;
     scores(i).score = score;

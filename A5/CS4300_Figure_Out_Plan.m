@@ -34,30 +34,40 @@ function [plan, frontier, safe, board, have_arrow] = CS4300_Figure_Out_Plan(b, a
 safe = old_safe;
 frontier = old_frontier;
 have_arrow = arrow;
-if ~isempty(old_safe)
-    [so,no] = CS4300_Wumpus_A_star(b, [agent.x, agent.y, agent.dir], [old_safe(1,:),0], 'CS4300_A_star_Man');
+
+% If there are safe places to go first go there
+if ~isempty(safe)
+    [so,no] = CS4300_Wumpus_A_star(b, [agent.x, agent.y, agent.dir], [safe(1,:),0], 'CS4300_A_star_Man');
     plan = so(2:end,4);
-    safe = old_safe(2:end,:);
+    safe = safe(2:end,:);
+    
+% Otherwise find the best cell to go to on the frontier
 else
-    wumpus_xy = old_frontier(1,:);
-    pit_xy = old_frontier(1,:);
+    % most likely place that the wumpus is
+    wumpus_xy = frontier(1,:);
+    % least likely place there is a pit
+    pit_xy = frontier(1,:);
     no_wumpus_flag = 0;
     
-    for i = 2:length(old_frontier)
-        if wumpus(4 - old_frontier(i,2) + 1, old_frontier(i,1)) > wumpus(4 - wumpus_xy(2) + 1, wumpus_xy(1))
-            wumpus_xy = old_frontier(i,:);
+    for i = 2:length(frontier)
+        if wumpus(4 - frontier(i,2) + 1, frontier(i,1)) > wumpus(4 - wumpus_xy(2) + 1, wumpus_xy(1))
+            wumpus_xy = frontier(i,:);
         end
-        if pits(4 - old_frontier(i,2) + 1) < pits(4 - pit_xy(2) + 1, pit_xy(1))
-            pit_xy = old_frontier(i,:);
+        if pits(4 - frontier(i,2) + 1, frontier(i,1)) < pits(4 - pit_xy(2) + 1, pit_xy(1))
+            pit_xy = frontier(i,:);
         end
     end
+    
+    % If there is no wumpus on our frontier or we don't have an arrow to 
+    % shoot the wumpus choose the least likely place that could have a pit
+    % and go into it
     if wumpus(4 - wumpus_xy(2) + 1, wumpus_xy(1)) == 0 || ~have_arrow
         b(4 - pit_xy(2) + 1, pit_xy(1)) = 0;
         [so,no] = CS4300_Wumpus_A_star(b, [agent.x, agent.y, agent.dir], ...
             [pit_xy,0], 'CS4300_A_star_Man');
          plan = so(2:end,4);
          no_wumpus_flag = 1;
-    elseif have_arrow
+    else
         b(4 - wumpus_xy(2) + 1, wumpus_xy(1)) = 0;
         [so,no] = CS4300_Wumpus_A_star(b, [agent.x, agent.y, agent.dir], ...
             [wumpus_xy,0], 'CS4300_A_star_Man');
@@ -66,21 +76,24 @@ else
          plan(end+1) = 1;
          have_arrow = 0;
     end
+    
     if no_wumpus_flag
-        for i = 1:length(old_frontier)
-            if pit_xy == old_frontier(i)
-                old_frontier(i) = [];
+        for i = 1:length(frontier(1:end,1))
+            if ismember(pit_xy, frontier(i,:), 'rows')
+                frontier(i,:) = [];
+                break;
             end
         end
     else
-        for i = 1:length(old_frontier)
-            if wumpus_xy == old_frontier(i)
-                old_frontier(i) = [];
+        for i = 1:length(frontier(1:end,1))
+            if ismember(wumpus_xy, frontier(i,:), 'rows')
+                frontier(i,:) = [];
+                break;
             end
         end   
     end
-    frontier = old_frontier;
 end
+
 board = b;
 end
 

@@ -17,7 +17,7 @@ function b = CS4300_Update_Board( safe, board )
 % 	Fall 2016
 %
 b = board;
-for i = 1:length(safe)
+for i = 1:size(safe, 1)
     b(4 - safe(i,2) + 1,safe(i,1)) = 0;
 end
 

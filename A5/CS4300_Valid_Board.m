@@ -32,16 +32,17 @@ function valid = CS4300_Valid_Board(board, breeze, stench)
 
 valid = 1;
 
-for i = 1:length(board)
-	for j = 1:length(board)
-        agent.x = (length(board) - j) + 1;
-        agent.y = i;
+for x = 1:length(board)
+	for y = 1:length(board)
+        agent.x = x;
+        agent.y = y;
         percept = CS4300_get_percept(board, agent, 0, 0);
-		if stench(i,j) ~= -1 && percept(1) ~= stench(i,j)
+		if stench(4-y+1,x) ~= -1 && percept(1) ~= stench(4-y+1,x)
 			valid = 0;
 			return;
 		end
-		if breeze(i,j) ~= -1 && percept(2) ~= breeze(i,j)
+		if (breeze(4-y+1,x) ~= -1 && percept(2) ~= breeze(4-y+1,x)) ...
+            || (breeze(4-y+1,x) ~= -1 && board(4-y+1,x) == 1)
 			valid = 0;
 			return;
 		end
