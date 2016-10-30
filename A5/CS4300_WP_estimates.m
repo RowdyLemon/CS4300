@@ -42,7 +42,10 @@ pits = zeros(4,4);
 wumpus = zeros(4,4);
 trial_count = 1;
 while trial_count < num_trials
-	board = CS4300_gen_board(0.2);
+	board = CS4300_gen_board(0.2);  
+    if stench == zeros(4,4)
+        board = CS4300_Remove_Stench(board);
+    end
 	if CS4300_Valid_Board(board, breezes, stench)
         trial_count = trial_count + 1;
         pits = pits + CS4300_Get_Pits(board);

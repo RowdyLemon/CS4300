@@ -31,7 +31,7 @@ GRAB = 4;
 SHOOT = 5;
 CLIMB = 6;
 
-num_trials = 50;
+num_trials = 1;
 
 persistent safe pits wumpus board have_arrow plan breezes stench
 persistent agent frontier visited
@@ -81,6 +81,9 @@ end
 action = plan(1);
 if action == SHOOT && ~percept(1)
     plan(end+1) = FORWARD;
+end
+if percept(5) == 1
+    stench = zeros(4,4);
 end
 agent = CS4300_Perform_Action(action, agent);
 plan = plan(2:end);

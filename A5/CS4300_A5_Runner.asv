@@ -20,8 +20,7 @@ function [scores,traces] = CS4300_A5_Runner(max_steps,f_name, boards)
 traces = [];
 scores = [];
 successes = 0;
-failures = 0;
-mean_scores = 0;
+failues = 0;
 
 clear(f_name);
 
@@ -37,19 +36,5 @@ end
 
 for i = 1:length(boards)
     if scores(i).score > 0
-        successes = successes + 1;
-    else
-        failures = failures + 1;
-    end
-    mean_scores = mean_scores + scores(i).score;
-end
-disp('Successes');
-disp(successes);
-disp('Failures');
-disp(failures);
-disp('Mean Scores');
-disp(mean_scores/length(boards));
-
-
-
+        
 
