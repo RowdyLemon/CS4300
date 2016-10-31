@@ -31,7 +31,7 @@ GRAB = 4;
 SHOOT = 5;
 CLIMB = 6;
 
-num_trials = 1;
+num_trials = 15;
 
 persistent safe pits wumpus board have_arrow plan breezes stench
 persistent agent frontier visited

@@ -24,7 +24,7 @@ function wumpus = CS4300_Get_Wumpus(board)
 wumpus = zeros(4,4);
 for i = 1:length(board)
     for j = 1:length(board)
-        if board(4 - i + 1, j) == 3
+        if board(4 - i + 1, j) == 3 || board(4 - i + 1, j) == 4
             wumpus(4 - i + 1, j) = 1;
         end
     end
