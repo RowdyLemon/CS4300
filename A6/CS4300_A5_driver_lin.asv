@@ -25,55 +25,85 @@ x0,y0,vx0,vy0,max_time,del_t,theta)
 %   Fall 2016
 %
 
-projectile = 1;
-sigma2_p = 0.01;
-
 t_vals = [0:del_t:max_time];
 num_t_vals = length(t_vals);
 
-ideal = zeros(num_t_vals, 4);
-ideal(1,:) = [x0, y0, vx0, vy0];
+xa = [x0;y0;vx0;vy0];
+a_trace = xa';
+A = [1,0,del_t,0;0,1,0,del_t;0,0,1,0;0,0,0,1];
+B = [(del_t^2)/2,0;0,(del_t^2)/2;del_t,0;0,del_t];
+C = [1,0,0,0;0,1,0,0];
+u = [0; -9.8];
+R = 2 * eye(4,4);
+Q = 10 * eye(2,2);
 
-actual = zeros(num_t_vals, 4);
-actual(1,:) = [x0, y0, vx0, vy0];
+xz = CS4300_Sensor(xa, C, Q);
+z_trace = xz';
 
-% sensor = zeros(num_t_vals_vals, 2);
+x = [x0;y0;0;0];
+x_trace = x';
 
-plot([-1, 10], 0);
-hold on
-plot(0, [-1, 10]);
-plot(x0,y0,'r+');
-plot(x0,y0,'ko');
-M(1) = getframe;
+v
+
+sigma = zeros(4,4);
+sigma2_trace(1).sigma2 = sigma;
 
 for s = 1:num_t_vals
-%     prev_x = actual(s,1);
-%     prev_y = actual(s,2);
-%     prev_vx = actual(s,3);
-%     prev_vy = actual(s,4);
-    prev_x = ideal(s,1);
-    prev_y = ideal(s,2);
-    prev_vx = ideal(s,3);
-    prev_vy = ideal(s,4);
-    [x,y,vx,vy] = CS4300_Trajectory_Model(prev_x, prev_y, prev_vx, ...
-        prev_vy, del_t, projectile);
-    ideal(s+1,:) = [x,y,vx,vy];
-    actual(s+1,1:2) = ideal(s+1,1:2) + sqrt(sigma2_p)*randn;
+    xa = CS4300_Process(xa, A, B, u, R);
+    a_trace(s+1,:) = xa';
     
-    clf
-    plot([-1, 10], 0);
-    hold on
-    plot(0, [-1, 10]);
-    plot(ideal(s+1,1),ideal(s+1,2),'r+');
-    plot(actual(s+1,1),actual(s+1,2),'ko');
-    M(s+1) = getframe;
+    z = CS4300_Sensor(xa, C, Q);
+    z_trace(s+1,:) = z';
     
-    if(ideal(s+1,2) < 0)
-        break;
-    end
+    
+    [x, sigma] = CS4300_KF(x, sigma, u, z, A, R, B, C, Q);
+    x_trace(s+1,:) = x';
+    Sigma2_trace(s+1).sigma2 = sigma;
 end
 
-plot(
+
+% sigma2_p = 0.01;
+% R = [1,;1;sigma2_p,;sigma2_p];
+% 
+% t_vals = [0:del_t:max_time];
+% num_t_vals = length(t_vals);
+% 
+% ideal = zeros(num_t_vals, 4);
+% ideal(1,:) = [x0, y0, vx0, vy0];
+% 
+% actual = zeros(num_t_vals, 4);
+% actual(1,:) = [x0, y0, vx0, vy0];
+% 
+% % sensor = zeros(num_t_vals_vals, 2);
+% 
+% plot([-500, 2500], 0);
+% hold on
+% plot(0, [-100, 600]);
+% plot(x0,y0,'r+');
+% plot(x0,y0,'ko');
+% M(1) = getframe;
+% 
+% for s = 1:num_t_vals
+%     xt = actual(s,:);
+%     xt = xt';
+%     ideal(s+1,:) = CS4300_Trajectory_Model(xt, del_t, -9.8, zeros(4,1));
+%     actual(s+1,:) = CS4300_Trajectory_Model(ideal(s+1,:)', del_t, -9.8, R);
+%     
+%     clf
+%     plot([-500, 2500], 0);
+%     hold on
+%     plot(0, [-100, 600]);
+%     plot(ideal(s+1,1),ideal(s+1,2),'go');
+%     plot(actual(s+1,1),actual(s+1,2),'b.');
+%     M(s+1) = getframe;
+%     
+%     if(ideal(s+1,2) < 0)
+%         break;
+%     end
+% end
+% 
+% plot(ideal(:,1), ideal(:,2), 'go');
+% plot(actual(:,1), actual(:,2), '.');
 
 end
 

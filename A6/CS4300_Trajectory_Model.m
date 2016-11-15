@@ -1,18 +1,12 @@
-function [x, y, vx_new, vy_new] =  CS4300_Trajectory_Model(x0, y0, vx, ...
-    vy, dt, projectile)
+function xtplus1 =  CS4300_Trajectory_Model(xt, dt, ay, R)
 % CS4300_Trajectory_Model - models either linear or projectile trajectory
 % On input:
-%   x0 (float): previous x location
-%   y0 (float): previous y location
-%   vx (float): x velocity
-%   vy (float): y velocity
+%   xt (4x1 matrix of floats): x, y, vx, vy at time t 
 %   dt (float): time step size
-%   projectile (boolean): Whether this is a linear or projectile trajectory
+%   ay (float): acceleration in the y direction
+%   R (4x4 matrix): noise matrix
 % On output:
-%   x (float): new x position
-%   y (float): new y position
-%   vx_new (float): new x velocity
-%   vy_new (float): new y velocity
+%   xtplus1 (1x4 matrix of floats): x, y, vx, vy at time t+1
 % Call:
 %   [xt,at,zt,St] = CS4300_A5_driver_lin(0,0,1,1,1,0.1,pi/4);
 % Author:
@@ -23,15 +17,21 @@ function [x, y, vx_new, vy_new] =  CS4300_Trajectory_Model(x0, y0, vx, ...
 %   Fall 2016
 %
 
-x = x0 + vx*dt;
-y = y0 + vy*dt;
-vx_new = vx;
+A = [1,0,dt,0;0,1,0,dt;0,0,1,0;0,0,0,1];
+B = [(dt^2)/2,0;0,(dt^2)/2;dt,0;0,dt];
+u = [0;ay];
 
-if projectile
-    vy_new = vy - 9.8*dt;
-else
-    vy_new = vy;
-end
+xtplus1 = A*xt + B*u + sqrt(R)*randn;
+
+% x = x0 + vx*dt;
+% y = y0 + vy*dt;
+% vx_new = vx;
+% 
+% if projectile
+%     vy_new = vy - 9.8*dt;
+% else
+%     vy_new = vy;
+% end
 
 end
 

@@ -14,14 +14,18 @@ B_t,C_t,Q_t)
 %   mu_t (nx1 vector): next state estimate
 %   Sigma_t (nxn matrix): state covariance matrix
 % Call:
-%   [x,Sigma2] = CS4300_KF(x,Sigma2,u,z,A,B,R,C,Q);
+%   [x,Sigma2] = CS4300_KF(x,Sigma2,u,z,A,R,B,C,Q);
 % Author:
-%   Matthew Lemon
-%   UU575787
-%   Derek Heldt-Werle
-%   UU828479
+%   <Your Name>
+%   UU
 %   Fall 2016
 %
 
-end
+mu_t = A_t * mu_tm1 + B_t * u_t;
+Sigma_t = A_t * Sigma_tm1 * A_t' + R_t;
 
+K_t = Sigma_t * C_t' * (C_t * Sigma_t * C_t' + Q_t)^-1;
+mu_t = mu_t + K_t * (z_t - C_t * mu_t);
+Sigma_t = (eye(length(C_t)) - K_t * C_t) * Sigma_t;
+
+end
