@@ -16,8 +16,10 @@ B_t,C_t,Q_t)
 % Call:
 %   [x,Sigma2] = CS4300_KF(x,Sigma2,u,z,A,R,B,C,Q);
 % Author:
-%   <Your Name>
-%   UU
+%   Matthew Lemon
+%   UU575787
+%   Derek Heldt-Werle
+%   UU828479
 %   Fall 2016
 %
 
