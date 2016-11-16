@@ -25,7 +25,10 @@ function xz = CS4300_Sensor(xa, C, Q)
 %
 
 noise = Q(1:end,1) + Q(1:end,2);
-xz = C * xa + sqrt(noise)*randn;
+for i=1:length(noise)
+   noise(i) = sqrt(noise(i))*randn; 
+end
+xz = C * xa + noise;
 
 end
 

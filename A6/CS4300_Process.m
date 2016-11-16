@@ -23,9 +23,12 @@ function xtplus1 = CS4300_Process(xt, A, B, u, R)
 %   Fall 2016
 %
 
-Noise = R(1:end,1) + R(1:end,2) + R(1:end,3) + R(1:end,4);
+noise = R(1:end,1) + R(1:end,2) + R(1:end,3) + R(1:end,4);
+for i=1:length(noise)
+   noise(i) = sqrt(noise(i))*randn; 
+end
 
-xtplus1 = A*xt + B*u + sqrt(Noise)*randn;
+xtplus1 = A*xt + B*u + noise;
 
 end
 

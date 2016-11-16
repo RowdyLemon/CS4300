@@ -19,7 +19,7 @@ function [yat,yt,sigma2t,zt] = CS4300_KF_fall_model(sigma2_p,sigma2_z)
 y0 = 80;
 dt = 0.1;
 g = -9.8;
-max_time = 100;
+max_time = 25;
 C = 1;
 yat = [y0];
 yt = [];
@@ -43,10 +43,10 @@ Q = sigma2_z;
 for s = 1:num_steps
     v = v + g*dt;
     ya = CS4300_fall_model(ya,v,dt);
-    if ya<0
-        ya = abs(ya);
-        v = -v;
-    end
+%     if ya<0
+%         ya = abs(ya);
+%         v = -v;
+%     end
     yat = [yat;ya];
     z = CS4300_fall_sensor(ya,C,sigma2_z);
     zt = [zt;z];

@@ -33,17 +33,20 @@ a_trace = xa';
 A = [1,0,del_t,0;0,1,0,del_t;0,0,1,0;0,0,0,1];
 B = [(del_t^2)/2,0;0,(del_t^2)/2;del_t,0;0,del_t];
 C = [1,0,0,0;0,1,0,0];
+% u = [0; 0];
 u = [0; -9.8];
-R = 2 * eye(4,4);
-Q = 10 * eye(2,2);
+% R = 0.01 * eye(4,4);
+% R = zeros(4);
+R = 0.001*eye(4);
+% Q = 0.01 * eye(2,2);
+Q = 0.001*eye(2);
+d
 
 xz = CS4300_Sensor(xa, C, Q);
 z_trace = xz';
 
-x = [x0;y0;0;0];
+x = [0;0;0;0];
 x_trace = x';
-
-v
 
 sigma = zeros(4,4);
 sigma2_trace(1).sigma2 = sigma;
