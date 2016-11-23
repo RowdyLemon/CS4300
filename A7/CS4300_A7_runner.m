@@ -3,6 +3,9 @@ function [U,U_trace] = CS4300_A7_runner()
 % On output:
 %       U (vector): state utilities
 %       U_trace (iterxn): trace of utility values during iteration
+% On output:
+%       U (vector): state utilities
+%       U_trace (iterxn): trace of utility values during iteration
 % Call:
 %       [U, U_trace] = CS4300_A7_runner();
 % Author:
@@ -13,16 +16,9 @@ function [U,U_trace] = CS4300_A7_runner()
 %   Fall 2016
 %
 
-%       S (vector): states (1 to n)
-%       A (vector): actions (1 to k)
-%       P (nxk struct array): transition model
-%         (s,a).probs (a vector with n transition probabilities
-%          from s to s_prime, given action a)
-%       U (vector): state utilities
-
 S = [1:16];
 A = [1:4];
-P(1,1).probs = [0.1, 0.1, 0, 0, 0.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+P(1,1).probs = [0.1, 0.1, 0, 0, 0.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 P(1,2).probs = [0.9, 0, 0, 0, 0.1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 P(1,3).probs = [0.9, 0.1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 P(1,4).probs = [0.1, 0.8, 0, 0, 0.1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -87,7 +83,18 @@ P(16,2).probs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.1, 0, 0, 0.8, 0.1];
 P(16,3).probs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.8, 0, 0, 0.1, 0.1];
 P(16,4).probs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.1, 0, 0, 0, 0.9];
 
+R = -ones(1,16);
+R(7) = -1000;
+R(11) = -1000;
+R(12) = -1000;
+R(16) = 1000;
+gamma = [0.9];%, 0.99, 0.999, 0.9999, 0.99999, 0.999999];
 
+U = [];
+U_trace = [];
+for i = 1:length(gamma)
+    [U, U_trace] = CS4300_MDP_value_iteration(S, A, P, R, .9, 0.1, 1000);
+end
 
 
 
