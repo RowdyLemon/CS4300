@@ -36,18 +36,29 @@ eta,max_iter)
 %
 
 U = [];
-U_Prime = [];
+U_trace = [];
+U_Prime = zeros(1,length(P(1,1).probs));
 delta = 0;
 
-while delta < ((eta * (1-gamma))/gamma)
+do = true;
+while (delta >= ((eta * (1-gamma))/gamma) || do)
     U = U_Prime;
-    delta = 0;
-    
-    for i = 1:length(S)
-        
-        U_Prime(S) = R(S) + gamma * max([dot(P(S(i),1), U(i)
+    delta = 0;    
+    for s = 1:length(S)
+        up = dot(P(s, 1).probs, U);
+        left = dot(P(s, 2).probs, U);
+        down = dot(P(s, 3).probs, U);
+        right = dot(P(s, 4).probs, U);
+        U_Prime(s) = R(s) + gamma * max([up, left, down, right]);
+%         U_Prime(i) = R(i) + gamma * max([dot(P(S(i), 1).probs, U), ...
+%             dot(P(S(i), 2).probs, U), dot(P(S(i), 3).probs, U), ... 
+%                 dot(P(S(i), 4).probs, U)]);
+        if (abs(U_Prime(s) - U(s)) > delta)
+            delta = abs(U_Prime(s) - U(s));
+        end
     end
+    U_trace(end+1).trace = U;
+    do = false;
 end
-
 
 
