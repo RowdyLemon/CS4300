@@ -152,7 +152,7 @@ gamma = [0.9];%, 0.99, 0.999, 0.9999, 0.99999, 0.999999];
 U = [];
 U_trace = [];
 for i = 1:length(gamma)
-    [U, U_trace] = CS4300_MDP_value_iteration(S, A, P, R, 1, 0.1, 1000);
+    [U, U_trace] = CS4300_MDP_value_iteration(S, A, P, R, 0.999, 0.1, 200);
 end
 
 policy = CS4300_MDP_policy(S,A,P,U);
