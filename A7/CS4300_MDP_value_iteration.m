@@ -1,4 +1,4 @@
-function [U,U_trace] = CS4300_MDP_value_iteratihon(S,A,P,R,gamma,...
+function [U,U_trace] = CS4300_MDP_value_iteration(S,A,P,R,gamma,...
 eta,max_iter)
 % CS4300_MDP_value_iteration - compute policy using value iteration
 %   On input:
@@ -47,7 +47,7 @@ while (delta >= ((eta * (1-gamma))/gamma) || do && count < max_iter)
     U = U_Prime;
     delta = 0;    
     for s = 1:length(S)
-        if(R(s) == -1 || R(s) == 1 || R(s) == 0 || R(s) == 1000 || R(s) == -1000)
+        if(R(s) == 1000 || R(s) == -1000) %(R(12) && (R(s) == -1 || R(s) == 1 || R(s) == 0 )) || 
             U_Prime(s) = R(s);
         else
             up = dot(P(s, A(1)).probs, U);

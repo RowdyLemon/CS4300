@@ -1,4 +1,4 @@
-function [U,U_trace] = CS4300_A7_runner()
+function [U,U_trace, policy] = CS4300_A7_runner()
 % CS4300_A7_runner - Used to call value iteration by setting up params
 % On output:
 %       U (vector): state utilities
@@ -152,30 +152,32 @@ gamma = [0.9];%, 0.99, 0.999, 0.9999, 0.99999, 0.999999];
 U = [];
 U_trace = [];
 for i = 1:length(gamma)
-    [U, U_trace] = CS4300_MDP_value_iteration(S2, A, P2, R2, .999999, 0.1, 1000);
+    [U, U_trace] = CS4300_MDP_value_iteration(S, A, P, R, 1, 0.1, 1000);
 end
 
+policy = CS4300_MDP_policy(S,A,P,U);
 
-r1 = [];
-r2 = [];
-r3 = [];
-r4 = [];
-r5 = [];
-
-for i=1:length(U_trace)
-    r1(end+1) = U_trace(i).trace(12);
-    r2(end+1) = U_trace(i).trace(11);
-    r3(end+1) = U_trace(i).trace(1);
-    r4(end+1) = U_trace(i).trace(3);
-    r5(end+1) = U_trace(i).trace(4);
-end
-
-plot(r1);
-hold on;
-plot(r2);
-plot(r3);
-plot(r4);
-plot(r5);
+% 
+% r1 = [];
+% r2 = [];
+% r3 = [];
+% r4 = [];
+% r5 = [];
+% 
+% for i=1:length(U_trace)
+%     r1(end+1) = U_trace(i).trace(12);
+%     r2(end+1) = U_trace(i).trace(11);
+%     r3(end+1) = U_trace(i).trace(1);
+%     r4(end+1) = U_trace(i).trace(3);
+%     r5(end+1) = U_trace(i).trace(4);
+% end
+% 
+% plot(r1);
+% hold on;
+% plot(r2);
+% plot(r3);
+% plot(r4);
+% plot(r5);
 
 end
 
