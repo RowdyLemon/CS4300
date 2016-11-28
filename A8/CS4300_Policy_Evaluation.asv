@@ -20,6 +20,8 @@ function utilities = CS4300_Policy_Evaluation(pi, U, S, A, P, R, gamma, k)
 %   Fall 2016
 %
 
+utilities = zeros(1, length(S));
+
 Uprime = U;
 
 for i=1:k
@@ -28,8 +30,7 @@ for i=1:k
             Uprime(s) = R(s)+ gamma * dot(P(s, pi(s)).probs, U);
         end
     end
-    U = Uprime;
 end
-utilities = U;
+
 end
 

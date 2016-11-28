@@ -46,6 +46,7 @@ function [policy,U,Ut] = CS4300_MDP_policy_iteration(S,A,P,R,k,gamma)
 %   Fall 2016
 %
 
+% U = zeros(1, length(S));
 U = (R~=median(R)).*R;
 pi = zeros(1, length(S));
 for i=1:length(S)
@@ -57,17 +58,20 @@ Ut = [];
 
 while ~unchanged
     U = CS4300_Policy_Evaluation(pi, U, S, A, P, R, gamma, k);
-    unchanged = true;
+    unchanged = false;
     for s=1:length(S)
         up = dot(P(s, A(1)).probs, U);
         left = dot(P(s, A(2)).probs, U);
         down = dot(P(s, A(3)).probs, U);
         right = dot(P(s, A(4)).probs, U);
         [v, i] = max([up, left, down, right]);
-        if v > U(s) && i ~= pi(s)
+        if v > U(s)
             pi(s) = i;
-            unchanged = false;
+            unchanged = true;
         end
+%         if(R(s) == 1000 || R(s) == -1000) %(R(12) && (R(s) == -1 || R(s) == 1 || R(s) == 0 )) || 
+%             pi(s) = R(s);
+%         end
     end
     Ut(end+1).trace = U;
 end
