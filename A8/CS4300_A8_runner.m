@@ -153,7 +153,7 @@ gamma = 0.999999; %, 0.99, 0.999, 0.9999, 0.99999, 0.999999];
 % 
 % policy = CS4300_MDP_policy(S,A,P,U);
 
-[policy, U, U_trace] = CS4300_MDP_policy_iteration(S,A,P,R,10,gamma);
+[policy, U, U_trace] = CS4300_MDP_policy_iteration(S,A,P,R,1,gamma);
 
 
 % r1 = [];

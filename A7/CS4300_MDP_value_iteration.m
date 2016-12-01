@@ -37,17 +37,16 @@ eta,max_iter)
 
 U = [];
 U_trace = [];
-U_Prime = zeros(1,length(P(1,1).probs));
+U_Prime = (R~=median(R)).*R;
 delta = 0;
-U_Prime(12) = 1;
 do = true;
 count = 1;
-while (delta >= ((eta * (1-gamma))/gamma) || do && count < max_iter)
+while ((delta >= ((eta * (1-gamma))/gamma) || do) && count < max_iter)
     count = count + 1;
     U = U_Prime;
     delta = 0;    
     for s = 1:length(S)
-        if(R(s) == 1000 || R(s) == -1000) %(R(12) && (R(s) == -1 || R(s) == 1 || R(s) == 0 )) || 
+        if(R(s) ~= median(R))
             U_Prime(s) = R(s);
         else
             up = dot(P(s, A(1)).probs, U);

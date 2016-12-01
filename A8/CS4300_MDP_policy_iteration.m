@@ -47,6 +47,7 @@ function [policy,U,Ut] = CS4300_MDP_policy_iteration(S,A,P,R,k,gamma)
 %
 
 U = (R~=median(R)).*R;
+% pi = 2 * ones(1, length(S));
 pi = zeros(1, length(S));
 for i=1:length(S)
    pi(i) = randi(4);
